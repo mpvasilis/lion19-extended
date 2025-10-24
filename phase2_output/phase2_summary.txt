@@ -1,0 +1,73 @@
+================================================================================
+PHASE 2 EXPERIMENTS - COMPREHENSIVE SUMMARY
+================================================================================
+Generated: 2025-10-23T16:07:01.582311
+Total benchmarks: 4
+================================================================================
+
+OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Successful (Perfect Learning): 0
+Completed (Partial Learning): 0
+Failed/Error: 4
+
+PER-BENCHMARK RESULTS
+--------------------------------------------------------------------------------
+
+Benchmark: sudoku
+  Status: FAILED
+  Total Duration: 0.06s
+
+  Constraint Learning:
+
+  Accuracy:
+
+  Log file: phase2_output\sudoku_phase2.log
+
+--------------------------------------------------------------------------------
+
+Benchmark: sudoku_gt
+  Status: FAILED
+  Total Duration: 0.05s
+
+  Constraint Learning:
+
+  Accuracy:
+
+  Log file: phase2_output\sudoku_gt_phase2.log
+
+--------------------------------------------------------------------------------
+
+Benchmark: examtt_v1
+  Status: FAILED
+  Total Duration: 0.05s
+
+  Constraint Learning:
+
+  Accuracy:
+
+  Log file: phase2_output\examtt_v1_phase2.log
+
+--------------------------------------------------------------------------------
+
+Benchmark: examtt_v2
+  Status: FAILED
+  Total Duration: 0.05s
+
+  Constraint Learning:
+
+  Accuracy:
+
+  Log file: phase2_output\examtt_v2_phase2.log
+
+--------------------------------------------------------------------------------
+
+SUMMARY TABLE
+--------------------------------------------------------------------------------
+Benchmark            Status       Queries    Time(s)    Precision    Recall    
+--------------------------------------------------------------------------------
+sudoku               FAILED       None       N/A        N/A          N/A       
+sudoku_gt            FAILED       None       N/A        N/A          N/A       
+examtt_v1            FAILED       None       N/A        N/A          N/A       
+examtt_v2            FAILED       None       N/A        N/A          N/A       
+================================================================================

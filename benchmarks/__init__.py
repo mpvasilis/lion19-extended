@@ -1,0 +1,8 @@
+from .uefa import construct_uefa
+from .vm_allocation import construct_vm_allocation
+from .exam_timetabling import construct_examtt_simple
+from .nurse_rostering import construct_nurse_rostering
+from .sudoku import construct_sudoku_binary
+from .jsudoku import construct_jsudoku_binary, construct_jsudoku_binary_4x4, construct_jsudoku_binary_6x6
+from .latin_square import construct_latin_square_binary, construct_latin_square_binary_4x4, construct_latin_square_binary_6x6, construct_latin_square_binary_9x9
+from .graph_coloring import construct_graph_coloring_binary, construct_graph_coloring_binary_queen5, construct_graph_coloring_binary_register, construct_graph_coloring_binary_scheduling

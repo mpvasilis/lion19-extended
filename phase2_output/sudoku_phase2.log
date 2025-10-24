@@ -1,0 +1,428 @@
+================================================================================
+PHASE 2 EXPERIMENT LOG
+Benchmark: sudoku
+Phase 1 pickle: phase1_output/sudoku_phase1.pkl
+Started: 2025-10-23T16:10:01.654880
+================================================================================
+
+load C:\Python312\Lib\site-packages\ortools\.libs\zlib1.dll...
+load C:\Python312\Lib\site-packages\ortools\.libs\abseil_dll.dll...
+load C:\Python312\Lib\site-packages\ortools\.libs\utf8_validity.dll...
+load C:\Python312\Lib\site-packages\ortools\.libs\re2.dll...
+load C:\Python312\Lib\site-packages\ortools\.libs\libprotobuf.dll...
+load C:\Python312\Lib\site-packages\ortools\.libs\highs.dll...
+load C:\Python312\Lib\site-packages\ortools\.libs\ortools.dll...
+
+============================================================
+HCAR AllDifferent COP Experiment
+============================================================
+Experiment: sudoku
+Alpha: 0.42
+Theta_max: 0.9
+Theta_min: 0.1
+Max queries: 500
+Timeout: 600s
+Prior: 0.5
+============================================================
+
+Constructing 9x9 Sudoku...
+
+Loading Phase 1 data from: phase1_output/sudoku_phase1.pkl
+Loaded Phase 1 data:
+  CG (global constraints): 31
+  B_fixed (pruned bias): 2826
+  E+ (positive examples): 5
+  Initial probabilities: 31
+  Metadata: {'benchmark': 'sudoku', 'num_examples': 5, 'num_detected_alldiffs': 27, 'num_appended_alldiffs': 0, 'num_target_alldiffs': 27, 'num_overfitted_alldiffs': 4, 'use_mock_constraints': True, 'num_bias_initial': 19440, 'num_bias_pruned': 2826, 'target_alldiff_count': 27, 'prior_target': 0.8, 'prior_overfitted': 0.3, 'target_coverage': '100%'}
+
+Using constraints from Phase 1 pickle:
+  Total CG (detected + overfitted): 31
+  Detected AllDifferent: 27
+  Overfitted AllDifferent: 4
+
+Using informed priors from Phase 1:
+  Detected constraints: P=0.8 (high confidence)
+  Overfitted constraints: P=0.3 (low confidence)
+  Prior distribution: 27 high (>=0.7), 4 low (<0.5)
+
+============================================================
+COP-Based Refinement for sudoku
+============================================================
+Initial candidate constraints: 31
+Parameters: alpha=0.42, theta_max=0.9, theta_min=0.1
+Budget: 500 queries, 600s timeout
+
+
+------------------------------------------------------------
+Iteration 1
+------------------------------------------------------------
+Status: 0 validated, 31 candidates, 0 queries used
+
+[QUERY] Generating violation query...
+  Building COP model: 31 candidates, 0 validated, 81 variables
+  Solving COP (timeout: 30s)...
+Violated 1/31 constraints:
+ - gamma_28 -> VIOLATED: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Solved in 0.70s - found violation query
+  Variables with values: 112/112
+  Violating 1/31 constraints
+Generated query violating 1 constraints
+  - alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.300)
+
+Violation Query Assignment
+  -------------------------------------
+  | 5  4  8  | 6  3  2  | 9  7  1 |
+  | 7  3  9  | 1  5  4  | 2  6  8 |
+  | 2  1  6  | 8  9  7  | 3  5  4 |
+  -------------------------------------
+  | 6  9  2  | 3  4  5  | 1  8  7 |
+  | 8  5  4  | 7  1  9  | 6  3  2 |
+  | 3  7  1  | 2  6  8  | 5  4  9 |
+  -------------------------------------
+  | 9  2  5  | 4  8  3  | 7  1  6 |
+  | 1  8  7  | 5  2  6  | 4  9  3 |
+  | 4  6  3  | 9  7  1  | 8  2  5 |
+  -------------------------------------
+  Filled cells: 81/81
+
+[ORACLE] Asking oracle...
+[YES] Oracle: Yes (valid assignment)
+[DISAMBIG] 1 constraints violated by valid solution - entering disambiguation
+
+  Disambiguating constraint: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Current P(c) = 0.300
+  Init CL: 0 validated + 0 remaining CG candidates
+
+===== Constraint Budget Information =====
+Total query budget for current constraint: 10
+Constraint 1/1: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Initial probability: 0.300
+========================================
+
+
+Weighted Violation Objective:
+  alldifferent(grid[3,6],grid[5,2],grid[7,0]): P=0.300 -> weight=0.700
+Query0: is this a solution?
+[grid[3,6], grid[5,2], grid[7,0]]
+violated from B: [alldifferent(grid[3,6],grid[5,2],grid[7,0])]
+Removing [alldifferent(grid[3,6],grid[5,2],grid[7,0])] from bias
+Immediately removing constraint alldifferent(grid[3,6],grid[5,2],grid[7,0]) from bias due to positive example
+
+Learned 0 constraints in 1 queries.
+Active learning stops because no more queries can be generated.
+  [Queries for this constraint: 1]
+  Result: Rejected (P=0.126)
+
+[DISAMBIGUATION] Total queries used: 1
+[QUERIES] Main loop: 1, Disambiguation: 1, Total so far: 2
+
+------------------------------------------------------------
+Iteration 2
+------------------------------------------------------------
+Status: 0 validated, 31 candidates, 2 queries used
+
+[QUERY] Generating violation query...
+  Building COP model: 31 candidates, 0 validated, 81 variables
+  Solving COP (timeout: 30s)...
+Violated 1/31 constraints:
+ - gamma_28 -> VIOLATED: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Solved in 0.82s - found violation query
+  Variables with values: 112/112
+  Violating 1/31 constraints
+Generated query violating 1 constraints
+  - alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.126)
+
+Violation Query Assignment
+  -------------------------------------
+  | 1  2  3  | 9  5  7  | 6  4  8 |
+  | 7  9  6  | 1  8  4  | 2  3  5 |
+  | 5  8  4  | 6  2  3  | 9  1  7 |
+  -------------------------------------
+  | 9  3  1  | 8  4  6  | 7  5  2 |
+  | 6  7  5  | 2  3  9  | 4  8  1 |
+  | 8  4  2  | 5  7  1  | 3  6  9 |
+  -------------------------------------
+  | 3  5  7  | 4  1  2  | 8  9  6 |
+  | 2  1  9  | 3  6  8  | 5  7  4 |
+  | 4  6  8  | 7  9  5  | 1  2  3 |
+  -------------------------------------
+  Filled cells: 81/81
+
+[ORACLE] Asking oracle...
+[YES] Oracle: Yes (valid assignment)
+[DISAMBIG] 1 constraints violated by valid solution - entering disambiguation
+
+  Disambiguating constraint: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Current P(c) = 0.126
+  Init CL: 0 validated + 0 remaining CG candidates
+
+===== Constraint Budget Information =====
+Total query budget for current constraint: 10
+Constraint 1/1: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Initial probability: 0.126
+========================================
+
+
+Weighted Violation Objective:
+  alldifferent(grid[3,6],grid[5,2],grid[7,0]): P=0.126 -> weight=0.874
+Query0: is this a solution?
+[grid[3,6], grid[5,2], grid[7,0]]
+violated from B: [alldifferent(grid[3,6],grid[5,2],grid[7,0])]
+Removing [alldifferent(grid[3,6],grid[5,2],grid[7,0])] from bias
+Immediately removing constraint alldifferent(grid[3,6],grid[5,2],grid[7,0]) from bias due to positive example
+
+Learned 0 constraints in 1 queries.
+Active learning stops because no more queries can be generated.
+  [Queries for this constraint: 1]
+  Result: Rejected (P=0.053)
+
+[DISAMBIGUATION] Total queries used: 1
+[QUERIES] Main loop: 3, Disambiguation: 1, Total so far: 4
+  [REMOVE] Removed: alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.053)
+
+------------------------------------------------------------
+Iteration 3
+------------------------------------------------------------
+Status: 0 validated, 30 candidates, 4 queries used
+
+[QUERY] Generating violation query...
+  Building COP model: 30 candidates, 0 validated, 81 variables
+  Solving COP (timeout: 30s)...
+Violated 1/30 constraints:
+ - gamma_27 -> VIOLATED: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Solved in 0.52s - found violation query
+  Variables with values: 111/111
+  Violating 1/30 constraints
+Generated query violating 1 constraints
+  - alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.053)
+
+Violation Query Assignment
+  -------------------------------------
+  | 8  7  9  | 6  5  4  | 2  3  1 |
+  | 3  1  4  | 2  9  8  | 6  7  5 |
+  | 5  2  6  | 7  3  1  | 4  9  8 |
+  -------------------------------------
+  | 6  4  2  | 3  8  9  | 1  5  7 |
+  | 9  5  1  | 4  7  2  | 8  6  3 |
+  | 7  3  8  | 5  1  6  | 9  2  4 |
+  -------------------------------------
+  | 4  9  7  | 1  6  3  | 5  8  2 |
+  | 1  6  3  | 8  2  5  | 7  4  9 |
+  | 2  8  5  | 9  4  7  | 3  1  6 |
+  -------------------------------------
+  Filled cells: 81/81
+
+[ORACLE] Asking oracle...
+[YES] Oracle: Yes (valid assignment)
+[DISAMBIG] 1 constraints violated by valid solution - entering disambiguation
+
+  Disambiguating constraint: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Current P(c) = 0.053
+  Init CL: 0 validated + 0 remaining CG candidates
+
+===== Constraint Budget Information =====
+Total query budget for current constraint: 10
+Constraint 1/1: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Initial probability: 0.053
+========================================
+
+
+Weighted Violation Objective:
+  alldifferent(grid[3,6],grid[5,2],grid[7,0]): P=0.053 -> weight=0.947
+Query0: is this a solution?
+[grid[3,6], grid[5,2], grid[7,0]]
+violated from B: [alldifferent(grid[3,6],grid[5,2],grid[7,0])]
+Removing [alldifferent(grid[3,6],grid[5,2],grid[7,0])] from bias
+Immediately removing constraint alldifferent(grid[3,6],grid[5,2],grid[7,0]) from bias due to positive example
+
+Learned 0 constraints in 1 queries.
+Active learning stops because no more queries can be generated.
+  [Queries for this constraint: 1]
+  Result: Rejected (P=0.022)
+
+[DISAMBIGUATION] Total queries used: 1
+[QUERIES] Main loop: 5, Disambiguation: 1, Total so far: 6
+  [REMOVE] Removed: alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.022)
+
+------------------------------------------------------------
+Iteration 4
+------------------------------------------------------------
+Status: 0 validated, 29 candidates, 6 queries used
+
+[QUERY] Generating violation query...
+  Building COP model: 29 candidates, 0 validated, 81 variables
+  Solving COP (timeout: 30s)...
+Violated 1/29 constraints:
+ - gamma_26 -> VIOLATED: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Solved in 0.58s - found violation query
+  Variables with values: 110/110
+  Violating 1/29 constraints
+Generated query violating 1 constraints
+  - alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.022)
+
+Violation Query Assignment
+  -------------------------------------
+  | 6  4  8  | 2  7  1  | 7  9  8 |
+  | 9  3  2  | 5  4  3  | 6  5  1 |
+  | 5  1  7  | 6  9  8  | 3  4  2 |
+  -------------------------------------
+  | 2  7  3  | 1  8  4  | 9  6  5 |
+  | 4  5  6  | 7  2  9  | 1  8  3 |
+  | 8  9  1  | 3  6  5  | 4  2  7 |
+  -------------------------------------
+  | 7  6  9  | 8  3  2  | 5  1  4 |
+  | 1  2  4  | 9  5  7  | 8  3  6 |
+  | 3  8  5  | 4  1  6  | 2  7  9 |
+  -------------------------------------
+  Filled cells: 81/81
+
+[ORACLE] Asking oracle...
+[YES] Oracle: Yes (valid assignment)
+[DISAMBIG] 1 constraints violated by valid solution - entering disambiguation
+
+  Disambiguating constraint: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Current P(c) = 0.022
+  Init CL: 0 validated + 0 remaining CG candidates
+
+===== Constraint Budget Information =====
+Total query budget for current constraint: 10
+Constraint 1/1: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Initial probability: 0.022
+========================================
+
+
+Weighted Violation Objective:
+  alldifferent(grid[3,6],grid[5,2],grid[7,0]): P=0.022 -> weight=0.978
+Query0: is this a solution?
+[grid[3,6], grid[5,2], grid[7,0]]
+violated from B: [alldifferent(grid[3,6],grid[5,2],grid[7,0])]
+Removing [alldifferent(grid[3,6],grid[5,2],grid[7,0])] from bias
+Immediately removing constraint alldifferent(grid[3,6],grid[5,2],grid[7,0]) from bias due to positive example
+
+Learned 0 constraints in 1 queries.
+Active learning stops because no more queries can be generated.
+  [Queries for this constraint: 1]
+  Result: Rejected (P=0.009)
+
+[DISAMBIGUATION] Total queries used: 1
+[QUERIES] Main loop: 7, Disambiguation: 1, Total so far: 8
+  [REMOVE] Removed: alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.009)
+
+------------------------------------------------------------
+Iteration 5
+------------------------------------------------------------
+Status: 0 validated, 28 candidates, 8 queries used
+
+[QUERY] Generating violation query...
+  Building COP model: 28 candidates, 0 validated, 81 variables
+  Solving COP (timeout: 30s)...
+Violated 1/28 constraints:
+ - gamma_25 -> VIOLATED: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Solved in 0.56s - found violation query
+  Variables with values: 109/109
+  Violating 1/28 constraints
+Generated query violating 1 constraints
+  - alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.009)
+
+Violation Query Assignment
+  -------------------------------------
+  | 4  2  8  | 5  7  6  | 5  6  3 |
+  | 6  7  9  | 8  9  2  | 7  8  9 |
+  | 3  1  5  | 3  4  1  | 1  4  2 |
+  -------------------------------------
+  | 8  9  7  | 6  5  4  | 3  2  1 |
+  | 5  6  4  | 1  2  3  | 9  7  8 |
+  | 2  3  1  | 9  8  7  | 6  5  4 |
+  -------------------------------------
+  | 7  8  6  | 4  3  9  | 2  1  5 |
+  | 1  5  3  | 2  6  8  | 4  9  7 |
+  | 9  4  2  | 7  1  5  | 8  3  6 |
+  -------------------------------------
+  Filled cells: 81/81
+
+[ORACLE] Asking oracle...
+[YES] Oracle: Yes (valid assignment)
+[DISAMBIG] 1 constraints violated by valid solution - entering disambiguation
+
+  Disambiguating constraint: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Current P(c) = 0.009
+  Init CL: 0 validated + 0 remaining CG candidates
+
+===== Constraint Budget Information =====
+Total query budget for current constraint: 10
+Constraint 1/1: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Initial probability: 0.009
+========================================
+
+
+Weighted Violation Objective:
+  alldifferent(grid[3,6],grid[5,2],grid[7,0]): P=0.009 -> weight=0.991
+Query0: is this a solution?
+[grid[3,6], grid[5,2], grid[7,0]]
+violated from B: [alldifferent(grid[3,6],grid[5,2],grid[7,0])]
+Removing [alldifferent(grid[3,6],grid[5,2],grid[7,0])] from bias
+Immediately removing constraint alldifferent(grid[3,6],grid[5,2],grid[7,0]) from bias due to positive example
+
+Learned 0 constraints in 1 queries.
+Active learning stops because no more queries can be generated.
+  [Queries for this constraint: 1]
+  Result: Rejected (P=0.004)
+
+[DISAMBIGUATION] Total queries used: 1
+[QUERIES] Main loop: 9, Disambiguation: 1, Total so far: 10
+  [REMOVE] Removed: alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.004)
+
+------------------------------------------------------------
+Iteration 6
+------------------------------------------------------------
+Status: 0 validated, 27 candidates, 10 queries used
+
+[QUERY] Generating violation query...
+  Building COP model: 27 candidates, 0 validated, 81 variables
+  Solving COP (timeout: 30s)...
+Violated 1/27 constraints:
+ - gamma_24 -> VIOLATED: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Solved in 0.67s - found violation query
+  Variables with values: 108/108
+  Violating 1/27 constraints
+Generated query violating 1 constraints
+  - alldifferent(grid[3,6],grid[5,2],grid[7,0]) (P=0.004)
+
+Violation Query Assignment
+  -------------------------------------
+  | 5  6  2  | 1  5  6  | 5  2  9 |
+  | 4  1  3  | 9  3  4  | 1  3  8 |
+  | 9  7  8  | 2  8  7  | 6  4  7 |
+  -------------------------------------
+  | 2  4  5  | 7  9  8  | 3  6  1 |
+  | 3  9  7  | 6  2  1  | 4  8  5 |
+  | 6  8  1  | 3  4  5  | 9  7  2 |
+  -------------------------------------
+  | 8  5  6  | 4  1  2  | 7  9  3 |
+  | 1  3  4  | 8  7  9  | 2  5  6 |
+  | 7  2  9  | 5  6  3  | 8  1  4 |
+  -------------------------------------
+  Filled cells: 81/81
+
+[ORACLE] Asking oracle...
+[YES] Oracle: Yes (valid assignment)
+[DISAMBIG] 1 constraints violated by valid solution - entering disambiguation
+
+  Disambiguating constraint: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Current P(c) = 0.004
+  Init CL: 0 validated + 0 remaining CG candidates
+
+===== Constraint Budget Information =====
+Total query budget for current constraint: 10
+Constraint 1/1: alldifferent(grid[3,6],grid[5,2],grid[7,0])
+  Initial probability: 0.004
+========================================
+
+
+Weighted Violation Objective:
+  alldifferent(grid[3,6],grid[5,2],grid[7,0]): P=0.004 -> weight=0.996
+Query0: is this a solution?
+[grid[3,6], grid[5,2], grid[7,0]]
+violated from B: [alldifferent(grid[3,6],grid[5,2],grid[7,0])]
+Removing [alldifferent(grid[3,6],grid[5,2],grid[7,0])] from bias
+Immediately removing constraint alldifferent(grid[3,6],grid[5,2],grid[7,0]) from bias due to positive example

@@ -1,0 +1,71 @@
+{
+  "experiment": "graph_coloring_register",
+  "timestamp": "2025-10-24T10:52:23.870716",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 5,
+    "B_fixed_size": 140
+  },
+  "phase2": {
+    "queries": 35,
+    "time": 7.246997833251953,
+    "validated_globals": 8,
+    "validated_globals_list": [
+      "alldifferent(register[3],register[4],register[5])",
+      "alldifferent(register[1],register[2],register[3],register[4])",
+      "alldifferent(register[4],register[5],register[6],register[7])",
+      "alldifferent(register[8],register[9],register[10],register[11])",
+      "alldifferent(register[6],register[7],register[8])",
+      "alldifferent(register[2],register[5],register[8],register[11])",
+      "alldifferent(register[0],register[9],register[10])",
+      "alldifferent(register[0],register[1],register[2])"
+    ]
+  },
+  "phase3": {
+    "queries": 67,
+    "time": 4.34200119972229,
+    "initial_cl": 30,
+    "pruned_bias": 110,
+    "final_model_size": 83,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 0,
+        "unresolved_scopes": 0,
+        "unresolved_details": []
+      },
+      "mquacq2": {
+        "skipped_scopes_count": 0,
+        "skipped_scopes": []
+      },
+      "total_issues": 0
+    }
+  },
+  "total": {
+    "queries": 102,
+    "time": 11.588999032974243
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 30,
+      "learned_size": 83,
+      "correct": 30,
+      "missing": 0,
+      "spurious": 53,
+      "precision": 0.3614457831325301,
+      "recall": 1.0,
+      "f1": 0.5309734513274336
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 1,
+      "target_solutions": 1,
+      "intersection_solutions": 0,
+      "is_complete": false,
+      "learned_incomplete": true,
+      "target_incomplete": true
+    }
+  }
+}
