@@ -174,7 +174,6 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
 
     model = cp.Model()
 
-    # Add all non-AllDifferent constraints from oracle as hard constraints
     if oracle is not None:
         print(f"  Oracle provided: {len(oracle.constraints)} total constraints")
         non_alldiff_constraints = []
@@ -184,17 +183,11 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
                 alldiff_count += 1
             else:
                 non_alldiff_constraints.append(c)
-        
-        print(f"  Oracle breakdown: {alldiff_count} AllDifferent, {len(non_alldiff_constraints)} non-AllDifferent")
-        
+                
         if non_alldiff_constraints:
             print(f"  Adding {len(non_alldiff_constraints)} non-AllDifferent constraints as hard constraints")
             for c in non_alldiff_constraints:
                 model += c
-        else:
-            print(f"  Warning: No non-AllDifferent constraints found in oracle!")
-    else:
-        print(f"  WARNING: No oracle provided to generate_violation_query!")
 
     for c in C_validated:
         model += c
@@ -307,12 +300,6 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
             gi = gamma[str(c)].value()
             if gi:
                 gamma_violations.append(c)
-        
-        if len(gamma_violations) != len(Viol_e):
-            print(f"  WARNING: Mismatch detected!")
-            print(f"    Gamma indicates {len(gamma_violations)} violations")
-            print(f"    get_kappa found {len(Viol_e)} violations")
-            print(f"  This may indicate variable synchronization issues.")
         
         assignment = variables_to_assignment(Y)
         return Y, gamma_violations, "SAT", assignment
