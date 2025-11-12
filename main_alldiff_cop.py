@@ -173,7 +173,8 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     print(f"  Building COP model: {len(CG)} candidates, {len(C_validated)} validated, {len(all_variables)} variables")
 
     model = cp.Model()
-
+    
+    """
     if oracle is not None:
         print(f"  Oracle provided: {len(oracle.constraints)} total constraints")
         non_alldiff_constraints = []
@@ -185,9 +186,9 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
                 non_alldiff_constraints.append(c)
                 
         if non_alldiff_constraints:
-            print(f"  Adding {len(non_alldiff_constraints)} non-AllDifferent constraints as hard constraints")
+            print(f"Adding {len(non_alldiff_constraints)} non-AllDifferent constraints as hard constraints")
             for c in non_alldiff_constraints:
-                model += c
+                model += c"""
 
     for c in C_validated:
         model += c
