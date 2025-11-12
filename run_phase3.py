@@ -226,11 +226,9 @@ def decompose_global_constraints(global_constraints):
     
     for c in global_constraints:
         if hasattr(c, 'name') and c.name == "alldifferent":
-            # Check if the constraint contains division or other transformations
             c_str = str(c)
             if '//' in c_str or '/' in c_str or '*' in c_str or '+' in c_str or '%' in c_str:
                 print(f"  Skipping constraint with transformations (not decomposable for MQuAcq-2): {c}")
-                # Don't add this constraint - it can't be properly handled by MQuAcq-2
                 continue
             
             decomposed = c.decompose()
@@ -262,7 +260,6 @@ def decompose_global_constraints(global_constraints):
         print(f"  Removed {duplicates_removed} duplicate constraints from CL_init")
         print(f"  Final CL_init size: {len(unique_constraints)} unique constraints")
     
-    # Validate all constraints have proper scopes
     from utils import get_scope
     validated_constraints = []
     skipped_count = 0
@@ -270,7 +267,6 @@ def decompose_global_constraints(global_constraints):
     for c in unique_constraints:
         try:
             scope = get_scope(c)
-            # For MQuAcq-2, we need binary constraints (arity >= 2) or we can keep global constraints
             if len(scope) >= 2 or 'sum' in str(c).lower() or 'count' in str(c).lower():
                 validated_constraints.append(c)
             else:
