@@ -8,6 +8,7 @@ from cpmpy import *
 from cpmpy import cpm_array
 from cpmpy.transformations.get_variables import get_variables
 from cpmpy.expressions.globalconstraints import AllDifferent
+from cpmpy.transformations.normalize import toplevel_list
 from pycona.utils import get_kappa, get_con_subset
 from benchmarks_global import construct_sudoku, construct_jsudoku, construct_latin_square
 from benchmarks_global import construct_graph_coloring_register, construct_graph_coloring_scheduling
@@ -169,7 +170,10 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     
     import cpmpy as cp
     import time
+
+    model_vars = get_variables(CG)
     
+    print(f"  Variables in CG: {len(model_vars)}")
     print(f"  Building COP model: {len(CG)} candidates, {len(C_validated)} validated, {len(all_variables)} variables")
 
     model = cp.Model()
@@ -190,7 +194,12 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
             for c in non_alldiff_constraints:
                 model += c"""
 
-    for c in C_validated:
+    C_validated_dec = toplevel_list([c.decompose()[0] for c in C_validated])
+
+    # Get constraints from CL that involve Y
+    Cl = get_con_subset(C_validated_dec, model_vars)
+
+    for c in Cl:
         model += c
 
     exclusion_assignments = []
