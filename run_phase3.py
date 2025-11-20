@@ -15,6 +15,7 @@ from pycona.query_generation import PQGen
 
 from resilient_findc import ResilientFindC
 from resilient_mquacq2 import ResilientMQuAcq2
+from resilient_growacq import ResilientGrowAcq
 
 from benchmarks_global import construct_sudoku, construct_jsudoku, construct_latin_square
 from benchmarks_global import construct_graph_coloring_register, construct_graph_coloring_scheduling
@@ -137,11 +138,11 @@ def load_phase2_data(pickle_path):
     
     print(f"Loading Phase 2 data from: {pickle_path}")
     
-    # Check if file exists
+    
     if not os.path.exists(pickle_path):
         print(f"\n[ERROR] Phase 2 pickle file not found: {pickle_path}")
         
-        # Try to find available pickle files
+        
         pickle_dir = os.path.dirname(pickle_path) or 'phase2_output'
         if os.path.exists(pickle_dir):
             available_pickles = [f for f in os.listdir(pickle_dir) if f.endswith('.pkl')]
@@ -150,7 +151,7 @@ def load_phase2_data(pickle_path):
                 for pkl in sorted(available_pickles):
                     print(f"  - {pkl}")
                 
-                # Try to suggest the correct file based on experiment name
+                
                 basename = os.path.basename(pickle_path)
                 if basename in available_pickles:
                     print(f"\n[HINT] Found matching file: {os.path.join(pickle_dir, basename)}")
@@ -203,9 +204,9 @@ def construct_instance(experiment_name):
         instance_global, oracle_global = (result[0], result[1]) if len(result) == 3 else result
     elif 'examtt' in experiment_name.lower():
         n = 6
-        result1 = construct_examtt_simple(nsemesters=9, courses_per_semester=6, slots_per_day=9, days_for_exams=14)
+        result1 = construct_examtt_simple(nsemesters=30, courses_per_semester=20, slots_per_day=18, days_for_exams=35)
         instance_binary, oracle_binary = (result1[0], result1[1]) if len(result1) == 3 else result1
-        result2 = ces_global(nsemesters=9, courses_per_semester=6, slots_per_day=9, days_for_exams=14)
+        result2 = ces_global(nsemesters=30, courses_per_semester=20, slots_per_day=18, days_for_exams=35)
         instance_global, oracle_global = (result2[0], result2[1]) if len(result2) == 3 else result2
     elif 'nurse' in experiment_name.lower():
         from benchmarks import construct_nurse_rostering as construct_nurse_binary
@@ -226,9 +227,11 @@ def decompose_global_constraints(global_constraints):
     
     for c in global_constraints:
         if hasattr(c, 'name') and c.name == "alldifferent":
+            
             c_str = str(c)
             if '//' in c_str or '/' in c_str or '*' in c_str or '+' in c_str or '%' in c_str:
                 print(f"  Skipping constraint with transformations (not decomposable for MQuAcq-2): {c}")
+                
                 continue
             
             decomposed = c.decompose()
@@ -260,6 +263,7 @@ def decompose_global_constraints(global_constraints):
         print(f"  Removed {duplicates_removed} duplicate constraints from CL_init")
         print(f"  Final CL_init size: {len(unique_constraints)} unique constraints")
     
+    
     from utils import get_scope
     validated_constraints = []
     skipped_count = 0
@@ -267,6 +271,7 @@ def decompose_global_constraints(global_constraints):
     for c in unique_constraints:
         try:
             scope = get_scope(c)
+            
             if len(scope) >= 2 or 'sum' in str(c).lower() or 'count' in str(c).lower():
                 validated_constraints.append(c)
             else:
@@ -293,7 +298,7 @@ def prune_bias_with_globals(bias_fixed, global_constraints):
     implied_binaries = []
     for gc in global_constraints:
         if hasattr(gc, 'name') and gc.name == "alldifferent":
-            # Skip constraints with transformations
+            
             gc_str = str(gc)
             if '//' in gc_str or '/' in gc_str or '*' in gc_str or '+' in gc_str or '%' in gc_str:
                 continue
@@ -320,14 +325,14 @@ def prune_bias_with_globals(bias_fixed, global_constraints):
     
     print(f"  Removed {contradictions_removed} constraints from bias (already implied by globals)")
     
-    # Validate bias constraints have proper scopes
+    
     validated_bias = []
     invalid_bias_count = 0
     
     for b in pruned_bias:
         try:
             scope = get_scope(b)
-            # Check if scope has valid size (at least 2 for binary)
+            
             if len(scope) >= 2:
                 validated_bias.append(b)
             else:
@@ -345,12 +350,24 @@ def prune_bias_with_globals(bias_fixed, global_constraints):
     return validated_bias
 
 
-def run_phase3(experiment_name, phase2_pickle_path, max_queries=1000, timeout=600):
+def run_phase3(experiment_name, phase2_pickle_path, max_queries=1000, timeout=600, algorithm='mquacq2'):
+    """
+    Run Phase 3: Active Learning with MQuAcq-2 or GrowAcq.
     
+    Args:
+        experiment_name: Name of the experiment
+        phase2_pickle_path: Path to Phase 2 pickle file
+        max_queries: Maximum queries (not used directly, but kept for compatibility)
+        timeout: Timeout in seconds (not used directly, but kept for compatibility)
+        algorithm: Algorithm to use ('mquacq2' or 'growacq')
+    """
+    
+    algorithm_name = algorithm.upper() if algorithm == 'growacq' else 'MQuAcq-2'
     print(f"\n{'='*80}")
-    print(f"Phase 3: Active Learning with MQuAcq-2")
+    print(f"Phase 3: Active Learning with {algorithm_name}")
     print(f"{'='*80}")
     print(f"Experiment: {experiment_name}")
+    print(f"Algorithm: {algorithm_name}")
     print(f"Max queries: {max_queries}")
     print(f"Timeout: {timeout}s")
     print(f"{'='*80}\n")
@@ -399,14 +416,14 @@ def run_phase3(experiment_name, phase2_pickle_path, max_queries=1000, timeout=60
     B_pruned = prune_bias_with_globals(B_fixed, C_validated)
 
     print(f"\n{'='*60}")
-    print(f"Step 3: Run MQuAcq-2 on Pruned Bias")
+    print(f"Step 3: Run {algorithm_name} on Pruned Bias")
     print(f"{'='*60}")
     print(f"Initial CL: {len(CL_init)}")
     print(f"Pruned bias: {len(B_pruned)}")
 
-    variables_for_mquacq = get_variables(CL_init + B_pruned)
+    variables_for_ca = get_variables(CL_init + B_pruned)
     
-    # Final validation: Check for any problematic constraints before creating instance
+    
     print(f"\n[VALIDATION] Pre-flight check of constraints...")
     from utils import get_scope
     
@@ -435,45 +452,60 @@ def run_phase3(experiment_name, phase2_pickle_path, max_queries=1000, timeout=60
     
     print(f"[VALIDATION] After pre-flight: CL={len(final_CL)}, Bias={len(final_bias)}")
     
-    mquacq_instance = ProblemInstance(
-        variables=cpm_array(variables_for_mquacq),
+    ca_instance = ProblemInstance(
+        variables=cpm_array(variables_for_ca),
         init_cl=final_CL,
         name=f"{experiment_name}_phase3",
         bias=final_bias
     )
     
-    print(f"\nCreated MQuAcq-2 instance:")
-    print(f"  Variables: {len(mquacq_instance.variables)}")
-    print(f"  Initial CL: {len(mquacq_instance.cl)}")
-    print(f"  Bias: {len(mquacq_instance.bias)}")
+    print(f"\nCreated {algorithm_name} instance:")
+    print(f"  Variables: {len(ca_instance.variables)}")
+    print(f"  Initial CL: {len(ca_instance.cl)}")
+    print(f"  Bias: {len(ca_instance.bias)}")
     
-    print(f"\n[INFO] Using MQuAcq-2 to handle imperfect bias")
+    print(f"\n[INFO] Using {algorithm_name} with resilient components to handle imperfect bias")
     from resilient_pqgen import ResilientPQGen
-    resilient_findc = ResilientFindC(time_limit=1)  # Set FindC solver timeout to 5 seconds
-    qgen = ResilientPQGen(time_limit=2)  # Use resilient query generator
+    resilient_findc = ResilientFindC(time_limit=1)  
+    qgen = ResilientPQGen(time_limit=2)  
     custom_env = ActiveCAEnv(qgen=qgen, findc=resilient_findc)
-    ca_system = ResilientMQuAcq2(ca_env=custom_env)
+    
+    
+    if algorithm.lower() == 'growacq':
+        
+        inner_mquacq2 = ResilientMQuAcq2(ca_env=custom_env)
+        ca_system = ResilientGrowAcq(ca_env=custom_env, inner_algorithm=inner_mquacq2)
+    else:
+        
+        ca_system = ResilientMQuAcq2(ca_env=custom_env)
     
     phase3_start = time.time()
     try:
         learned_instance = ca_system.learn(
-            mquacq_instance, 
+            ca_instance, 
             oracle=oracle_binary, 
             verbose=3
         )
     except Exception as e:
-        print(f"\n[ERROR] MQuAcq-2 failed: {e}")
+        print(f"\n[ERROR] {algorithm_name} failed: {e}")
         import traceback
         traceback.print_exc()
 
         findc_report = resilient_findc.get_resilience_report()
-        mquacq_report = ca_system.get_resilience_report()
+        ca_report = ca_system.get_resilience_report()
         
         print(f"\n[RESILIENCE REPORT]")
         print(f"  FindC collapse warnings: {findc_report['collapse_warnings']}")
         print(f"  FindC unresolved scopes: {findc_report['unresolved_scopes']}")
-        print(f"  MQuAcq2 skipped scopes: {mquacq_report['skipped_scopes_count']}")
-        print(f"  MQuAcq2 invalid CL constraints: {mquacq_report.get('invalid_cl_constraints_count', 0)}")
+        print(f"  {algorithm_name} skipped scopes: {ca_report.get('skipped_scopes_count', 0)}")
+        print(f"  {algorithm_name} invalid CL constraints: {ca_report.get('invalid_cl_constraints_count', 0)}")
+        print(f"  {algorithm_name} collapse warnings: {ca_report.get('collapse_warnings', 0)}")
+        
+        
+        if algorithm.lower() == 'growacq' and 'inner_algorithm' in ca_report:
+            inner_report = ca_report['inner_algorithm']
+            print(f"  Inner algorithm (MQuAcq2) skipped scopes: {inner_report.get('skipped_scopes_count', 0)}")
+            print(f"  Inner algorithm (MQuAcq2) invalid CL constraints: {inner_report.get('invalid_cl_constraints_count', 0)}")
         
         if findc_report['unresolved_details']:
             print(f"  Unresolved scope details:")
@@ -483,49 +515,57 @@ def run_phase3(experiment_name, phase2_pickle_path, max_queries=1000, timeout=60
         sys.exit(1)
     phase3_time = time.time() - phase3_start
     
-    learned_constraints_from_mquacq = ca_system.env.instance.cl
+    learned_constraints_from_ca = ca_system.env.instance.cl
     
     final_constraints_raw = learned_instance.cl
     
-    learned_constraints_filtered = learned_constraints_from_mquacq
+    learned_constraints_filtered = learned_constraints_from_ca
     
     final_constraints = final_constraints_raw
     
-    num_filtered_mquacq = len(learned_constraints_from_mquacq) - len(learned_constraints_filtered)
+    num_filtered_ca = len(learned_constraints_from_ca) - len(learned_constraints_filtered)
     num_filtered_final = len(final_constraints_raw) - len(final_constraints)
     
-    if num_filtered_mquacq > 0:
-        print(f"\n[WARNING] Filtered {num_filtered_mquacq} invalid constraints from MQuAcq2 learned model")
+    if num_filtered_ca > 0:
+        print(f"\n[WARNING] Filtered {num_filtered_ca} invalid constraints from {algorithm_name} learned model")
     if num_filtered_final > 0:
         print(f"\n[WARNING] Filtered {num_filtered_final} invalid constraints from final model")
     
     print(f"\nLearned model info:")
-    print(f"  MQuAcq2 CL size: {len(learned_constraints_filtered)} constraints")
+    print(f"  {algorithm_name} CL size: {len(learned_constraints_filtered)} constraints")
     print(f"  Final model size: {len(final_constraints)} constraints")
     
     phase3_queries = ca_system.env.metrics.total_queries
 
     findc_resilience = resilient_findc.get_resilience_report()
-    mquacq_resilience = ca_system.get_resilience_report()
+    ca_resilience = ca_system.get_resilience_report()
 
     resilience_report = {
         'findc': findc_resilience,
-        'mquacq2': mquacq_resilience,
-        'total_issues': findc_resilience['collapse_warnings'] + mquacq_resilience['skipped_scopes_count']
+        'algorithm': ca_resilience,
+        'algorithm_name': algorithm_name,
+        'total_issues': findc_resilience['collapse_warnings'] + ca_resilience.get('skipped_scopes_count', 0) + ca_resilience.get('collapse_warnings', 0)
     }
     
     print(f"\n{'='*60}")
     print(f"Phase 3 Results")
     print(f"{'='*60}")
-    print(f"MQuAcq-2 queries: {phase3_queries}")
-    print(f"MQuAcq-2 time: {phase3_time:.2f}s")
+    print(f"{algorithm_name} queries: {phase3_queries}")
+    print(f"{algorithm_name} time: {phase3_time:.2f}s")
     print(f"Final model constraints: {len(final_constraints)}")
     
     if resilience_report and resilience_report['total_issues'] > 0:
         print(f"\nResilience Report:")
         print(f"  FindC collapse warnings: {resilience_report['findc']['collapse_warnings']}")
-        print(f"  MQuAcq2 skipped scopes: {resilience_report['mquacq2']['skipped_scopes_count']}")
+        print(f"  {algorithm_name} skipped scopes: {resilience_report['algorithm'].get('skipped_scopes_count', 0)}")
+        print(f"  {algorithm_name} collapse warnings: {resilience_report['algorithm'].get('collapse_warnings', 0)}")
         print(f"  Total issues handled: {resilience_report['total_issues']}")
+        
+        
+        if algorithm.lower() == 'growacq' and 'inner_algorithm' in resilience_report['algorithm']:
+            inner_report = resilience_report['algorithm']['inner_algorithm']
+            print(f"  Inner algorithm (MQuAcq2) skipped scopes: {inner_report.get('skipped_scopes_count', 0)}")
+            print(f"  Inner algorithm (MQuAcq2) invalid CL constraints: {inner_report.get('invalid_cl_constraints_count', 0)}")
         
         if resilience_report['findc'].get('unresolved_details'):
             print(f"  Unresolved scope details (first 5):")
@@ -606,6 +646,7 @@ def run_phase3(experiment_name, phase2_pickle_path, max_queries=1000, timeout=60
             'validated_globals_list': [str(c) for c in C_validated]
         },
         'phase3': {
+            'algorithm': algorithm_name,
             'queries': phase3_queries,
             'time': phase3_time,
             'initial_cl': len(CL_init),
@@ -678,15 +719,17 @@ if __name__ == "__main__":
     import argparse
     import os
     
-    parser = argparse.ArgumentParser(description='Run Phase 3: Active Learning with MQuAcq-2')
+    parser = argparse.ArgumentParser(description='Run Phase 3: Active Learning with MQuAcq-2 or GrowAcq')
     parser.add_argument('--experiment', type=str, default="sudoku", help='Experiment name')
     parser.add_argument('--phase2_pickle', type=str, default=None, help='Path to Phase 2 pickle file (auto-constructed if not provided)')
-    parser.add_argument('--max_queries', type=int, default=1000, help='Maximum queries for MQuAcq-2')
+    parser.add_argument('--max_queries', type=int, default=1000, help='Maximum queries for active learning algorithm')
     parser.add_argument('--timeout', type=int, default=600, help='Timeout in seconds')
+    parser.add_argument('--algorithm', type=str, default='growacq', choices=['mquacq2', 'growacq'], 
+                        help='Active learning algorithm to use: mquacq2 or growacq (default: mquacq2)')
     
     args = parser.parse_args()
     
-    # Auto-construct phase2_pickle path if not provided
+    
     if args.phase2_pickle is None:
         args.phase2_pickle = f"phase2_output/{args.experiment}_phase2.pkl"
         print(f"[INFO] Auto-constructed Phase 2 pickle path: {args.phase2_pickle}")
@@ -695,6 +738,7 @@ if __name__ == "__main__":
         experiment_name=args.experiment,
         phase2_pickle_path=args.phase2_pickle,
         max_queries=args.max_queries,
-        timeout=args.timeout
+        timeout=args.timeout,
+        algorithm=args.algorithm
     )
 
