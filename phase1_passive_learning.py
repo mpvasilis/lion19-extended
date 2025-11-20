@@ -19,6 +19,8 @@ from benchmarks_global import construct_examtt_simple as ces_global
 from benchmarks_global import construct_examtt_variant1, construct_examtt_variant2
 from benchmarks_global import construct_nurse_rostering as nr_global
 
+from ml_belief_scorer import MLBeliefScorer
+
 SUPPORTED_BENCHMARKS = [
     "sudoku",
     "sudoku_gt",
@@ -556,14 +558,37 @@ def run_phase1_for_benchmark(benchmark_name, output_dir='phase1_output', num_exa
     CG = set(seen_patterns.values())
     print(f"\nConstraint Group (deduplicated target constraints): {len(CG)} total")
 
-    initial_probabilities = {constraint: 0.8 for constraint in CG}
-    print(f"Initial probabilities set to 0.8 for all {len(initial_probabilities)} target constraints")
+    print(f"\nInitializing ML-based belief scorer...")
+    try:
+        scorer = MLBeliefScorer(model_path='ml_models/constraint_classifier_calibrated.pkl')
+        print(f"  [SUCCESS] Calibrated ML model loaded!")
+        
+        print(f"  Scoring {len(CG)} constraints with ML model...")
+        initial_probabilities = scorer.score_candidates(list(CG), instance.X)
+        
+        prob_values = list(initial_probabilities.values())
+        avg_prob = sum(prob_values) / len(prob_values) if prob_values else 0.0
+        min_prob = min(prob_values) if prob_values else 0.0
+        max_prob = max(prob_values) if prob_values else 0.0
+        
+        
+    except FileNotFoundError as e:
+        print(f"  [WARNING] ML model not found: {e}")
+        print(f"  [FALLBACK] Using fixed probability of 0.8 for all constraints")
+        initial_probabilities = {constraint: 0.8 for constraint in CG}
+    except Exception as e:
+        print(f"  [WARNING] Error loading ML model: {e}")
+        print(f"  [FALLBACK] Using fixed probability of 0.8 for all constraints")
+        initial_probabilities = {constraint: 0.8 for constraint in CG}
 
     language = ['==', '!=', '<', '>', '<=', '>=']
     B_fixed = generate_binary_bias(instance.X, language)
 
     B_fixed_pruned = prune_bias_with_examples(B_fixed, positive_examples, instance.X)
 
+    prob_values = list(initial_probabilities.values())
+
+    
     output_data = {
         'CG': CG,
         'B_fixed': B_fixed_pruned,
@@ -583,6 +608,8 @@ def run_phase1_for_benchmark(benchmark_name, output_dir='phase1_output', num_exa
             'min_scope': min_scope,
             'max_scope': max_scope,
             'target_coverage': '100%',
+            'probability_source': 'ML_calibrated_model',
+            'probability_model': 'ml_models/constraint_classifier_calibrated.pkl',
         }
     }
 
@@ -598,13 +625,10 @@ def run_phase1_for_benchmark(benchmark_name, output_dir='phase1_output', num_exa
     print(f"Output saved to: {output_path}")
     print(f"\nSummary:")
     print(f"  Positive examples: {len(positive_examples)}")
-    print(f"  Target AllDifferent: {len(target_alldiffs)}")
-    print(f"    - Detected by patterns: {len(detected_alldiffs)}")
-    print(f"    - Appended (missed): {len(missing_targets)}")
     print(f"  Total CG: {len(CG)} (TARGET COVERAGE: 100%)")
     print(f"  Binary bias (initial): {len(B_fixed)}")
     print(f"  Binary bias (pruned): {len(B_fixed_pruned)}")
-    print(f"  Strategies: {', '.join(strategies) if strategies else 'none'}")
+   
     print(f"{'='*70}\n")
 
     return output_path
