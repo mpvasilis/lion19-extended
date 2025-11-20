@@ -52,112 +52,8 @@ def construct_jsudoku(grid_size=9, regions=None):
     C_T = list(set(toplevel_list(model.constraints)))
 
 
-    mock_constraints = []
+    overfitted_constraints = []
 
-
-    if grid_size >= 9:
-        non_adj_rows = []
-        for row in [0, 3, 6]:
-            for col in range(3):
-                non_adj_rows.append(grid[row, col])
-        mock_c1 = cp.AllDifferent(non_adj_rows)  
-        mock_constraints.append(mock_c1)
-        model += mock_c1
-
-    if grid_size >= 9:
-        non_adj_cols = []
-        for col in [1, 4, 7]:
-            for row in range(3):
-                non_adj_cols.append(grid[row, col])
-        mock_c2 = cp.AllDifferent(non_adj_cols)  
-        mock_constraints.append(mock_c2)
-        model += mock_c2
-
-    if grid_size >= 9:
-        diagonal = [grid[i, i] for i in range(grid_size)]
-        mock_c3 = cp.AllDifferent(diagonal)
-        mock_constraints.append(mock_c3)
-        model += mock_c3
-
-    if grid_size >= 9:
-        anti_diag = [grid[i, grid_size - 1 - i] for i in range(grid_size)]
-        mock_c4 = cp.AllDifferent(anti_diag)
-        mock_constraints.append(mock_c4)
-        model += mock_c4
-
-    if grid_size >= 9 and len(regions) >= 9:
-        corner_cells = []
-
-        for region_idx in [0, 2, 6, 8]:
-            if region_idx < len(regions):
-                region_cells = [grid[r, c] for r, c in regions[region_idx][:3]]
-                corner_cells.extend(region_cells)
-        if len(corner_cells) >= 12:
-            mock_c5 = cp.AllDifferent(corner_cells)
-            mock_constraints.append(mock_c5)
-            model += mock_c5
-
-    if grid_size >= 9:
-        border_cells = []
-
-        border_cells.extend([grid[0, col] for col in range(6)])
-
-        border_cells.extend([grid[8, col] for col in range(6)])
-        mock_c6 = cp.AllDifferent(border_cells)  
-        mock_constraints.append(mock_c6)
-        model += mock_c6
-
-    if grid_size >= 9:
-        middle_area = []
-
-        for row in range(2, 7):
-            middle_area.append(grid[row, 4])
-
-        for col in range(2, 7):
-            if col != 4:  
-                middle_area.append(grid[4, col])
-        mock_c7 = cp.AllDifferent(middle_area)  
-        mock_constraints.append(mock_c7)
-        model += mock_c7
-
-    if grid_size >= 9:
-        l_shape = []
-
-        for row in range(3):
-            l_shape.append(grid[row, 0])
-
-        for col in range(1, 6):
-            l_shape.append(grid[0, col])
-        mock_c8 = cp.AllDifferent(l_shape)  
-        mock_constraints.append(mock_c8)
-        model += mock_c8
-
-    if grid_size >= 9:
-        star_pattern = [
-            grid[0, 0], grid[0, grid_size-1],  
-            grid[grid_size-1, 0], grid[grid_size-1, grid_size-1],  
-            grid[grid_size//2, grid_size//2],  
-            grid[0, grid_size//2], grid[grid_size-1, grid_size//2],  
-            grid[grid_size//2, 0], grid[grid_size//2, grid_size-1]  
-        ]
-        mock_c9 = cp.AllDifferent(star_pattern)
-        mock_constraints.append(mock_c9)
-        model += mock_c9
-
-    if grid_size >= 9:
-        z_pattern = []
-
-        for col in range(1, 4):
-            z_pattern.append(grid[0, col])
-
-        for i in range(3, 6):
-            z_pattern.append(grid[i, i])
-
-        for col in range(5, 8):
-            z_pattern.append(grid[8, col])
-        mock_c10 = cp.AllDifferent(z_pattern)  
-        mock_constraints.append(mock_c10)
-        model += mock_c10
 
     AV = absvar(2)
     lang = [AV[0] == AV[1], AV[0] != AV[1], AV[0] < AV[1], AV[0] > AV[1], AV[0] >= AV[1], AV[0] <= AV[1]]
@@ -165,7 +61,7 @@ def construct_jsudoku(grid_size=9, regions=None):
     instance = ProblemInstance(variables=grid, params=parameters, language=lang, name="jsudoku")
     oracle = ConstraintOracle(C_T)
     
-    return instance, oracle, mock_constraints
+    return instance, oracle, overfitted_constraints
 
 
 def construct_jsudoku_4x4():
