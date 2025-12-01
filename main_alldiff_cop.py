@@ -748,21 +748,7 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
                 
                 
                 print(f"{indent}[DISAMBIGUATE] Recursively refining {len(Viol_e)} constraints...")
-                
-                
-                
-                k = len(Viol_e)
-                for c in Viol_e:
-                    old_prob = probs[c]
-                    
-                    
-                    probs[c] = update_supporting_evidence(probs[c], alpha ** (1.0 / k))
-                    print(f"{indent}  [UPDATE] {c}: P={old_prob:.3f} -> {probs[c]:.3f} (k={k})")
-                    if probs[c] >= theta_max:
-                        if c in CG:
-                            CG.remove(c)
-                            C_val.append(c)
-                            print(f"{c} appended to C_val")
+
                     
                 
                 decomposed_viol = []
