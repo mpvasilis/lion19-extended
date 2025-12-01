@@ -451,7 +451,7 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
         if len(gamma_violations) != len(Viol_e):
             print(f"    Gamma indicates {len(gamma_violations)} violations")
             print(f"    get_kappa found {len(Viol_e)} violations")
-            print(f"  This may indicate variable synchronization issues.")
+            raise Exception(f"  This may indicate variable synchronization issues.")
         
         assignment = variables_to_assignment(Y)
         
