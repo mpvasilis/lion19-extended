@@ -318,6 +318,8 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
 
     model = cp.Model()
 
+    model_vars = get_variables(list(CG))
+
     C_validated_dec = toplevel_list([c.decompose()[0] for c in C_validated])
 
     for c in C_validated_dec:
