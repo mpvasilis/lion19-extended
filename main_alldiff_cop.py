@@ -381,12 +381,12 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     
     constraint_violation_term = cp.sum(probabilities[c]* gamma[str(c)] for c in CG)
     
-    objective = constraint_violation_term
+    objective = 5000 * constraint_violation_term
     
     if bias_violations:
         bias_violation_term = cp.sum(bias_violations)
-        objective += 10 * bias_violation_term
-  
+        objective += bias_violation_term
+
 
     model.minimize(objective)
 
