@@ -615,6 +615,10 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
             B_fixed=B_fixed,
             bias_weight=bias_weight
         )
+
+        for c in Viol_e:
+            if c not in CG:
+                raise Exception(f"After query generation: Constraint {c} is in Viol_e but not in CG: {CG}")
         
         if status == "UNSAT":
             consecutive_unsat += 1
