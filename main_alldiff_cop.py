@@ -311,9 +311,6 @@ def interpret_oracle_response(response):
 def generate_violation_query(CG, C_validated, probabilities, all_variables, oracle=None,
                              previous_queries=None, positive_examples=None, B_fixed=None, bias_weight=0.5):
     
-    import cpmpy as cp
-    import time
-    
     print(f"  Building COP model: {len(CG)} candidates, {len(C_validated)} validated, {len(all_variables)} variables")
 
     model = cp.Model()
