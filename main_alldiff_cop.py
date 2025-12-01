@@ -720,7 +720,7 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
                 if str(c) =="alldifferent(grid[0,1],grid[2,3],grid[1,0],grid[0,0])":
                     input("Press Enter to continue...")
             
-            if len(Viol_e) == 1:
+            if len(Viol_e) == 1 and len(CG_cand) == 1:
                 
                 c = list(Viol_e)[0]
                 print(f"{indent}  [SINGLE VIOLATION] Must be correct: {c}")
