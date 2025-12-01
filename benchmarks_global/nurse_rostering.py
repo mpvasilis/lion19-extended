@@ -30,28 +30,28 @@ def construct_nurse_rostering(shifts_per_day=3, num_days=7, num_nurses=10, nurse
 
 
 
-    mock_constraints = []
+    overfitted_constraints = []
 
 
     if num_days >= 3:
-        mock_positions = list(roster_matrix[0, 0, :]) + list(roster_matrix[2, 0, :])
-        mock_c1 = cp.AllDifferent(mock_positions)
-        mock_constraints.append(mock_c1)
+        overfitted_positions = list(roster_matrix[0, 0, :]) + list(roster_matrix[2, 0, :])
+        overfitted_c1 = cp.AllDifferent(overfitted_positions)
+        overfitted_constraints.append(overfitted_c1)
 
 
 
     if num_days >= 2 and shifts_per_day >= 2:
         mid_shift = shifts_per_day // 2
-        mock_positions = list(roster_matrix[0, mid_shift, :]) + list(roster_matrix[num_days-1, mid_shift, :])
-        mock_c2 = cp.AllDifferent(mock_positions)
-        mock_constraints.append(mock_c2)
+        overfitted_positions = list(roster_matrix[0, mid_shift, :]) + list(roster_matrix[num_days-1, mid_shift, :])
+        overfitted_c2 = cp.AllDifferent(overfitted_positions)
+        overfitted_constraints.append(overfitted_c2)
 
 
 
     if num_days >= 4 and shifts_per_day >= 2:
-        mock_positions = list(roster_matrix[1, 0, :]) + list(roster_matrix[3, 1, :])
-        mock_c3 = cp.AllDifferent(mock_positions)
-        mock_constraints.append(mock_c3)
+        overfitted_positions = list(roster_matrix[1, 0, :]) + list(roster_matrix[3, 1, :])
+        overfitted_c3 = cp.AllDifferent(overfitted_positions)
+        overfitted_constraints.append(overfitted_c3)
 
 
     AV = absvar(2)
@@ -70,5 +70,5 @@ def construct_nurse_rostering(shifts_per_day=3, num_days=7, num_nurses=10, nurse
 
     oracle = ConstraintOracle(C_T)
 
-    return instance, oracle, mock_constraints
+    return instance, oracle, overfitted_constraints
 

@@ -135,31 +135,31 @@ def construct_graph_coloring(graph_type="queen_5x5", num_colors=None):
     C_T = list(set(toplevel_list(model.constraints)))
 
 
-    mock_constraints = []
+    overfitted_constraints = []
 
 
 
     
     if graph_type == "register" and num_nodes >= 8:
 
-        mock_c1 = cp.AllDifferent([nodes[0], nodes[3], nodes[6]])
-        mock_constraints.append(mock_c1)
+        overfitted_c1 = cp.AllDifferent([nodes[0], nodes[3], nodes[6]])
+        overfitted_constraints.append(overfitted_c1)
 
-        mock_c2 = cp.AllDifferent([nodes[1], nodes[4], nodes[7]])
-        mock_constraints.append(mock_c2)
+        overfitted_c2 = cp.AllDifferent([nodes[1], nodes[4], nodes[7]])
+        overfitted_constraints.append(overfitted_c2)
     
     if graph_type == "queen_5x5":
 
         n = 5
-        mock_c2 = cp.AllDifferent([nodes[0,0], nodes[0,n-1], nodes[n-1,0], nodes[n-1,n-1]])
-        mock_constraints.append(mock_c2)
+        overfitted_c2 = cp.AllDifferent([nodes[0,0], nodes[0,n-1], nodes[n-1,0], nodes[n-1,n-1]])
+        overfitted_constraints.append(overfitted_c2)
     
     if graph_type == "scheduling":
 
-        mock_c1 = cp.AllDifferent([courses[0], courses[5], courses[10]])
-        mock_constraints.append(mock_c1)
-        mock_c2 = cp.AllDifferent([courses[2], courses[7], courses[12]])
-        mock_constraints.append(mock_c2)
+        overfitted_c1 = cp.AllDifferent([courses[0], courses[5], courses[10]])
+        overfitted_constraints.append(overfitted_c1)
+        overfitted_c2 = cp.AllDifferent([courses[2], courses[7], courses[12]])
+        overfitted_constraints.append(overfitted_c2)
 
     AV = absvar(2)
     lang = [AV[0] == AV[1], AV[0] != AV[1], AV[0] < AV[1], AV[0] > AV[1], AV[0] >= AV[1], AV[0] <= AV[1]]
@@ -168,7 +168,7 @@ def construct_graph_coloring(graph_type="queen_5x5", num_colors=None):
     instance = ProblemInstance(variables=variables, params=parameters, language=lang, name=graph_name)
     oracle = ConstraintOracle(C_T)
     
-    return instance, oracle, mock_constraints
+    return instance, oracle, overfitted_constraints
 
 
 def construct_graph_coloring_queen5():

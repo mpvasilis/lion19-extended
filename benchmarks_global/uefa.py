@@ -122,26 +122,26 @@ def construct_uefa(teams_data, n_groups=8, teams_per_group=4):
 
 
 
-    mock_constraints = []
+    overfitted_constraints = []
 
 
-    mock_size = min(n_groups, 4)
+    overfitted_size = min(n_groups, 4)
 
-    if len(teams_data) >= mock_size * 2:
+    if len(teams_data) >= overfitted_size * 2:
 
-        first_teams = sorted(teams_data.keys())[:mock_size]
+        first_teams = sorted(teams_data.keys())[:overfitted_size]
         first_vars = [group_assignments[team] for team in first_teams]
-        mock_c1 = cp.AllDifferent(first_vars)
-        mock_constraints.append(mock_c1)
-        all_constraints.append(mock_c1)
-        global_constraints.append(mock_c1)
+        overfitted_c1 = cp.AllDifferent(first_vars)
+        overfitted_constraints.append(overfitted_c1)
+        all_constraints.append(overfitted_c1)
+        global_constraints.append(overfitted_c1)
 
-        last_teams = sorted(teams_data.keys())[-mock_size:]
+        last_teams = sorted(teams_data.keys())[-overfitted_size:]
         last_vars = [group_assignments[team] for team in last_teams]
-        mock_c2 = cp.AllDifferent(last_vars)
-        mock_constraints.append(mock_c2)
-        all_constraints.append(mock_c2)
-        global_constraints.append(mock_c2)
+        overfitted_c2 = cp.AllDifferent(last_vars)
+        overfitted_constraints.append(overfitted_c2)
+        all_constraints.append(overfitted_c2)
+        global_constraints.append(overfitted_c2)
 
     for constraint in all_constraints:
         model += constraint
