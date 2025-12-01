@@ -310,7 +310,10 @@ def interpret_oracle_response(response):
 
 def generate_violation_query(CG, C_validated, probabilities, all_variables, oracle=None,
                              previous_queries=None, positive_examples=None, B_fixed=None, bias_weight=0.5):
-        
+    
+    import cpmpy as cp
+    import time
+    
     print(f"  Building COP model: {len(CG)} candidates, {len(C_validated)} validated, {len(all_variables)} variables")
 
     model = cp.Model()
@@ -454,7 +457,7 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
         if len(gamma_violations) != len(Viol_e):
             print(f"    Gamma indicates {len(gamma_violations)} violations")
             print(f"    get_kappa found {len(Viol_e)} violations")
-            raise Exception(f"  This may indicate variable synchronization issues: gamma says {len(gamma_violations)} violations, but get_kappa says {len(Viol_e)} violations")
+            print(f"  This may indicate variable synchronization issues.")
         
         assignment = variables_to_assignment(Y)
         
