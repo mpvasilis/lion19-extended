@@ -833,9 +833,7 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
                 
                 ToValidate = [c for c in C_val_recursive if id(c) in Viol_e_ids and id(c) not in C_val_ids]
                 
-                
-                
-                ToRemove = [c for c in Viol_e if id(c) not in C_val_recursive_ids and c in CG_remaining_recursive and probs[c] <= theta_min]
+                ToRemove = [c for c in Viol_e if id(c) not in C_val_recursive_ids and c not in CG_remaining_recursive]
                 
                 print(f"{indent}[DISAMBIGUATE] Results: {len(ToValidate)} validated, {len(ToRemove)} removed")
                 
