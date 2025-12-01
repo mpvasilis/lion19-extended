@@ -325,7 +325,12 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     #for c in C_validated_dec:
     #    model += c 
     
-    model_vars = get_variables(CG)
+    # Get constraints from CL that involve Y
+    Cl = get_con_subset(C_validated_dec, model_vars)
+
+    # Add ONLY the ones that are relevant to the current CG
+    for c in Cl:
+        model += c
 
     exclusion_assignments = []
     if previous_queries:
@@ -334,12 +339,16 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     if exclusion_assignments:
         for idx, assignment in enumerate(exclusion_assignments):
             diff_terms = []
+            flag = True # If all variables in the assignment are in the current CG, then add the constraint
             for var in model_vars:
                 var_name = str(getattr(var, 'name', ''))
                 if var_name in assignment:
                     diff_terms.append(var != assignment[var_name])
+                else:
+                    flag = False
+                    break
 
-            if diff_terms:
+            if flag:
                 model += cp.any(diff_terms)
 
     gamma = {str(c): cp.boolvar(name=f"gamma_{i}") for i, c in enumerate(CG)}
@@ -357,10 +366,8 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     
     if B_fixed is not None and len(B_fixed) > 0:
         print(f"  Processing B_fixed bias: {len(B_fixed)} constraints")
-        
-        cg_vars = get_variables(list(CG))
-        
-        relevant_bias = get_con_subset(B_fixed, cg_vars)
+                
+        relevant_bias = get_con_subset(B_fixed, model_vars) # Get constraints from B_fixed that involve Y
         
         print(f"  Relevant B_fixed constraints (overlap with CG scope): {len(relevant_bias)}/{len(B_fixed)}")
         
