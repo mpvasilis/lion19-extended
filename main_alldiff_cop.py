@@ -435,11 +435,6 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     if result:
         print(f"  Solved in {solve_time:.2f}s - found violation query")
         
-        
-        model_vars = get_variables(model.constraints)
-        
-        
-        
         Y = []
         for v in model_vars:
             var_name = str(getattr(v, 'name', ''))
