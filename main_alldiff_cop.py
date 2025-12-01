@@ -716,9 +716,6 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
             
             print(f"{indent}Oracle: NO (invalid) - Disambiguate {len(Viol_e)} violated constraints")
             negative_query_assignments.append(assignment_snapshot)
-            for c in Viol_e:
-                if str(c) =="alldifferent(grid[0,1],grid[2,3],grid[1,0],grid[0,0])":
-                    input("Press Enter to continue...")
             
             if len(Viol_e) == 1 and (len(CG_cand) == 1 or not bias_violated):
                 
