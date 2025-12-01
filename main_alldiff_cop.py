@@ -700,7 +700,10 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
             print(f"{indent}Oracle: YES (valid) - Remove all {len(Viol_e)} violated constraints")
             for c in Viol_e:
                 if c in CG:
+                    prev_size = len(CG)
                     CG.remove(c)
+                    if prev_size == len(CG):
+                        raise Exception(f"  Constraint {c} was removed from CG_cand but is still in CG: {CG}")
                     probs[c] *= alpha 
                     print(f"{indent}  [REMOVE] {c} (P={probs[c]:.3f})")
 
