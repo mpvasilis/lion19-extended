@@ -254,9 +254,6 @@ def manual_sudoku_oracle_check(assignment, oracle, oracle_variables):
         
         check_model = cp.Model()
         
-        
-        
-        
         print(f"    [ORACLE CHECK] Created model with {len(oracle.constraints)} TRUE constraints")
         
         
@@ -437,21 +434,17 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
         
         Y = []
         for v in model_vars:
-            var_name = str(getattr(v, 'name', ''))
-            
+            var_name = str(getattr(v, 'name', ''))            
             
             if not var_name.startswith('gamma_') and not var_name.startswith('beta_'):
                 Y.append(v)
         
         values_set = sum(1 for v in Y if v.value() is not None)
         print(f"  Variables with values: {values_set}/{len(Y)}")
-    
-
-        
+            
         Viol_e = get_kappa(CG, Y)
         print(f"  Violating {len(Viol_e)}/{len(CG)} constraints")
-        
-        
+            
         gamma_violations = []
         for i, c in enumerate(CG):
             gi = gamma[str(c)].value()
@@ -649,11 +642,7 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
         assignment_signature_value = assignment_signature(assignment)
         if assignment_signature_value is None:
             print(f"{indent}[WARN] Generated query has no assigned values; skipping")
-            continue
-
-        
-        
-        
+            continue        
 
         query_signature_cache.add(assignment_signature_value)
         assignment_snapshot = assignment.copy()
@@ -678,8 +667,7 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
         print(f"{indent}[DEBUG] Sending {len(non_none_assignments)} assigned variables to oracle")
         if len(non_none_assignments) <= 10:
             print(f"{indent}[DEBUG] Assignment: {non_none_assignments}")
-        
-        
+                
         oracle_vars = getattr(oracle, 'variables_list', None)
         manual_result = manual_sudoku_oracle_check(non_none_assignments, oracle, oracle_vars)
         
@@ -733,8 +721,7 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
                 
                 c = list(Viol_e)[0]
                 print(f"{indent}  [SINGLE VIOLATION] Must be correct: {c}")
-                
-                
+                                
                 probs[c] = update_supporting_evidence(probs[c], alpha)
                 if probs[c] >= theta_max:
                     if c in CG:
