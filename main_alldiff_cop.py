@@ -318,9 +318,6 @@ def generate_violation_query(CG, C_validated, probabilities, all_variables, orac
     model_vars = get_variables(list(CG))
 
     C_validated_dec = toplevel_list([c.decompose()[0] for c in C_validated])
-
-    #for c in C_validated_dec:
-    #    model += c 
     
     # Get constraints from CL that involve Y
     Cl = get_con_subset(C_validated_dec, model_vars)
