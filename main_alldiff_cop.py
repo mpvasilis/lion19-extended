@@ -19,6 +19,57 @@ from benchmarks_global import construct_nurse_rostering as nr_global
 from cpmpy.transformations.normalize import toplevel_list
 
 
+def prune_bias_with_single_example(B_fixed, assignment, variables):
+    """
+    Prune B_fixed in place by removing constraints violated by a single positive example.
+    
+    This is called immediately when a positive example is found during Phase 2,
+    ensuring the bias stays consistent throughout refinement.
+    
+    Args:
+        B_fixed: List of bias constraints (modified in place)
+        assignment: Dictionary mapping variable names to values (the positive example)
+        variables: List of all problem variables
+    
+    Returns:
+        Number of constraints removed
+    """
+    if B_fixed is None or len(B_fixed) == 0:
+        return 0
+    
+    var_mapping = {str(var.name): var for var in variables}
+    
+    # Assign values to variables
+    for var_name, value in assignment.items():
+        if var_name in var_mapping:
+            var_mapping[var_name]._value = value
+    
+    # Find constraints to remove (those violated by the positive example)
+    to_remove = []
+    for constraint in B_fixed:
+        try:
+            if not constraint.value():
+                to_remove.append(constraint)
+        except:
+            # If evaluation fails, be conservative and remove
+            to_remove.append(constraint)
+    
+    # Reset variable values
+    for var in variables:
+        var._value = None
+    
+    # Remove violated constraints from B_fixed in place
+    removed_count = len(to_remove)
+    for c in to_remove:
+        B_fixed.remove(c)
+    
+    if removed_count > 0:
+        print(f"  [B_FIXED PRUNING] Removed {removed_count} constraints violated by positive example")
+        print(f"  [B_FIXED PRUNING] Remaining B_fixed size: {len(B_fixed)}")
+    
+    return removed_count
+
+
 def variables_to_assignment(variables):
     """Extract variable assignments as a name -> value mapping."""
     assignment = {}
@@ -709,6 +760,11 @@ def cop_refinement_recursive(CG_cand, C_validated, oracle, probabilities, all_va
                 assignment_snapshot = assignment.copy()
                 positive_query_examples.append(assignment_snapshot)
                 phase1_positive_examples.append(assignment_snapshot)
+                
+                # Immediately prune B_fixed with this new positive example
+                # This ensures subsequent queries don't include violated binary constraints
+                if B_fixed is not None and len(B_fixed) > 0:
+                    prune_bias_with_single_example(B_fixed, assignment_snapshot, all_variables)
         else:
             
             print(f"{indent}Oracle: NO (invalid) - Disambiguate {len(Viol_e)} violated constraints")
@@ -1235,6 +1291,17 @@ if __name__ == "__main__":
     print(f"Missing: {missing}")
     print(f"Spurious: {spurious}")
     
+    # Add target comparison metrics to stats for output
+    stats['target_comparison'] = {
+        'target_count': len(target_alldiff),
+        'learned_count': len(C_validated),
+        'correct': correct,
+        'missing': missing,
+        'spurious': spurious,
+        'missing_constraints': [str(c) for c in target_alldiff if str(c) not in learned_strs],
+        'spurious_constraints': [str(c) for c in C_validated if str(c) not in target_strs]
+    }
+    
     if correct == len(target_alldiff) and spurious == 0:
         print(f"\n[SUCCESS] Perfect learning!")
     else:
@@ -1375,18 +1442,17 @@ if __name__ == "__main__":
 
     E_plus_merged = stats.get('positive_examples_repository', [])
     
-    B_fixed_updated = None
-    if args.phase1_pickle and 'B_fixed' in phase1_data and phase1_data['B_fixed'] is not None:
-        from phase1_passive_learning import prune_bias_with_examples
+    # B_fixed has already been pruned incrementally during Phase 2 whenever 
+    # a positive example was found. We use the already-pruned B_fixed.
+    # Note: B_fixed was modified in place during cop_refinement_recursive
+    B_fixed_updated = B_fixed
+    if B_fixed_updated is not None:
+        original_size = len(phase1_data.get('B_fixed', []))
         print(f"\n{'='*60}")
-        print(f"Re-pruning B_fixed with accumulated examples from Phase 2")
+        print(f"B_fixed Status After Incremental Pruning")
         print(f"{'='*60}")
-        B_fixed_updated = prune_bias_with_examples(
-            phase1_data['B_fixed'], 
-            E_plus_merged, 
-            instance.X
-        )
-        print(f"B_fixed updated: {len(phase1_data['B_fixed'])} -> {len(B_fixed_updated)} constraints")
+        print(f"B_fixed: {original_size} -> {len(B_fixed_updated)} constraints")
+        print(f"  (Pruned incrementally during Phase 2 when positive examples were found)")
     
     phase2_output = {
         'C_validated': C_validated,  
