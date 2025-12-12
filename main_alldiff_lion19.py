@@ -23,6 +23,13 @@ from main_alldiff_cop import (
 )
 
 
+def has_duplicate_variables(constraint):
+    if not isinstance(constraint, AllDifferent):
+        return False
+    variables = list(get_variables([constraint]))
+    return len(variables) != len(set(variables))
+
+
 def flatten_variables(variables):
     if isinstance(variables, np.ndarray):
         return [var for var in variables.flat]
@@ -35,11 +42,7 @@ def flatten_variables(variables):
 
 
 def extract_grid_position(var):
-    """
-    Extract row and column position from a variable name.
-    Assumes variable names follow pattern like 'grid[i,j]' or 'x[i,j]'.
-    Returns (row, col) tuple or (None, None) if pattern not found.
-    """
+
     name = str(getattr(var, 'name', var))
     
     
@@ -158,51 +161,15 @@ def interpret_oracle_response(response):
     return bool(response)
 
 
-def bayesian_update_lion19(P_prior, p_d_given_valid=0.95, p_d_given_invalid=0.05):
-    """
-    Update probability using Bayes' rule as specified in LION19 paper.
-    
-    Given that the oracle rejected a violating assignment (event D):
-    P(c ∈ C* | D) = P(D | c ∈ C*) · P(c) / [P(D | c ∈ C*) · P(c) + P(D | c ∉ C*) · (1 - P(c))]
-    
-    Args:
-        P_prior: Current probability P(c ∈ C*)
-        p_d_given_valid: P(D | c ∈ C*) = probability oracle rejects given c is valid (default: 0.95)
-        p_d_given_invalid: P(D | c ∉ C*) = probability oracle rejects given c is invalid (default: 0.05)
-    
-    Returns:
-        Updated posterior probability P(c ∈ C* | D)
-    """
-    numerator = p_d_given_valid * P_prior
-    denominator = p_d_given_valid * P_prior + p_d_given_invalid * (1 - P_prior)
-    
-    if denominator == 0:
-        return P_prior
-    
-    return numerator / denominator
+def bayesian_update_lion19(P_prior, alpha=0.42):
+    return P_prior + (1 - P_prior) * (1 - alpha)
 
 
 def manual_sudoku_oracle_check(assignment, oracle, oracle_variables):
-    """
-    Manually check if an assignment is valid by creating a CP model with TRUE oracle constraints.
-    
-    Args:
-        assignment: Dictionary mapping variable names to values
-        oracle: Oracle object containing TRUE constraints
-        oracle_variables: List/array of oracle variables
-        
-    Returns:
-        True if assignment is valid (satisfiable with true constraints)
-        False if assignment is invalid (unsatisfiable with true constraints)
-        None if check cannot be performed
-    """
+
     try:
         import cpmpy as cp
         
-
-        if not hasattr(oracle, 'constraints') or not oracle.constraints:
-            print(f"    [ORACLE CHECK] Oracle has no constraints")
-            return None
         
 
         check_model = cp.Model()
@@ -250,19 +217,7 @@ def manual_sudoku_oracle_check(assignment, oracle, oracle_variables):
 
 
 def prepare_variable_pairs(scope_vars, involvement_scores=None, alpha=1.0, beta=0.5):
-    """
-    Compute candidate variable pairs with their domain intersections and heuristic scores.
-    
-    Uses the LION19 paper scoring function:
-    score(x_i, x_j) = α · |d(x_i, x_j)| - β · (I(x_i) + I(x_j))
-    
-    where:
-    - d(x_i, x_j) is the Manhattan distance between variables
-    - I(x) is the involvement score (number of candidate constraints containing x)
-    - α, β are positive weighting parameters (default: α=1.0, β=0.5)
-    
-    Pairs with higher scores (greater spatial separation and lower involvement) are prioritized.
-    """
+  
     pairs = []
 
     sorted_scope = sorted(scope_vars, key=lambda v: str(getattr(v, "name", v)))
@@ -307,9 +262,8 @@ def query_driven_refinement(
     *,
     scoring_alpha=1.0,
     scoring_beta=0.5,
-    p_d_given_valid=0.95,
-    p_d_given_invalid=0.05,
-    theta_max=0.98,
+    alpha=0.42,
+    theta_accept=0.9,
     max_queries=500,
     timeout=600,
     solver_timeout=30,
@@ -317,37 +271,7 @@ def query_driven_refinement(
     random_seed=42,
     use_all_candidates_in_model=True,
 ):
-    """
-    Run the LION19 Query-Driven refinement on the candidate constraints.
-    
-    Implements Algorithm 1 from the LION19 paper:
-    - Sorts constraints by ascending prior probability (test suspicious ones first)
-    - Uses scoring function: score(x_i,x_j) = α·d(x_i,x_j) - β·(I(x_i)+I(x_j))
-    - Creates model M' = (C_G \\ {c}) ∪ {x_i=v, x_j=v} for violation queries
-    - Updates probabilities using Bayesian inference with specified likelihoods
-    
-    Args:
-        experiment_name: Name of the experiment
-        candidate_constraints: Set of candidate AllDifferent constraints (C_G)
-        solver_variables: Variables for the CP solver
-        oracle_variables: Variables for oracle queries
-        oracle: Oracle object for membership queries
-        probabilities: Initial probability estimates for each constraint
-        scoring_alpha: α parameter for scoring function (default: 1.0)
-        scoring_beta: β parameter for scoring function (default: 0.5)
-        p_d_given_valid: P(D | c ∈ C*) - probability oracle rejects if c is valid (default: 0.95)
-        p_d_given_invalid: P(D | c ∉ C*) - probability oracle rejects if c is invalid (default: 0.05)
-        theta_max: Acceptance threshold for probability (default: 0.98)
-        max_queries: Maximum number of oracle queries
-        timeout: Overall timeout in seconds
-        solver_timeout: Timeout per solver call
-        additional_constraints: Optional B_fixed constraints from Phase 1
-        random_seed: Random seed for reproducibility
-        use_all_candidates_in_model: If True, include all other candidates (C_G \\ {c}) in model M'
-    
-    Returns:
-        Tuple of (final_constraints, probability_map, stats, removed_constraints)
-    """
+   
 
     rng = random.Random(random_seed)
     start_time = time.time()
@@ -358,28 +282,28 @@ def query_driven_refinement(
     remaining_constraints = list(candidate_constraints)
     removed_constraints = set()
     validated_constraints = set()
+    
+    # E^+_new: Accumulated positive examples from accepted queries 
+    E_plus_new = []
 
     probability_map = {c: probabilities.get(c, 0.3) for c in remaining_constraints}
-
     
+    # Q_asked: Set of query signatures to prevent duplicates 
+    query_asked = set()
+
     involvement_scores = compute_involvement_scores(solver_vars, remaining_constraints)
     print(f"\n[LION19] Computed involvement scores for {len(involvement_scores)} variables")
     
-    
-    
-    
-    remaining_constraints.sort(key=lambda c: probability_map.get(c, 0.5), reverse=True)
-    print(f"[LION19] Sorted {len(remaining_constraints)} constraints by DESCENDING probability")
-    print(f"[LION19] Scoring parameters: α={scoring_alpha}, β={scoring_beta}")
-    print(f"[LION19] Bayesian parameters: P(D|valid)={p_d_given_valid}, P(D|invalid)={p_d_given_invalid}")
-    print(f"[LION19] Model construction: {'Include all candidates (C_G \\ {{c}})' if use_all_candidates_in_model else 'Only validated constraints'}")
+    remaining_constraints.sort(key=lambda c: probability_map.get(c, 0.5), reverse=False)
+    print(f"[LION19] Sorted {len(remaining_constraints)} constraints by ASCENDING probability (suspicious first)")
+    print(f"[LION19] Scoring parameters: alpha_d={scoring_alpha}, beta_I={scoring_beta}")
+    print(f"[LION19] Acceptance threshold: theta_accept={theta_accept}")
+    print(f"[LION19] Model construction: {'Include all candidates (C_G^cand \\ {{c}})' if use_all_candidates_in_model else 'Only validated constraints'}")
 
     total_queries = 0
     solver_calls = 0
     solver_time_acc = 0.0
     pairs_considered = 0
-
-    query_cache = {}
 
     for idx, constraint in enumerate(remaining_constraints, start=1):
         if constraint in removed_constraints:
@@ -397,6 +321,13 @@ def query_driven_refinement(
         print(f"\n{'-'*70}")
         print(f"Constraint {idx}/{len(remaining_constraints)} (P={probability_map.get(constraint, 0.5):.3f})")
         print(constraint)
+
+        if has_duplicate_variables(constraint):
+            print("  [REJECT - INVALID] Constraint has duplicate variables!")
+            print("  [REJECT] Removing internally inconsistent constraint.")
+            removed_constraints.add(constraint)
+            probability_map[constraint] = 0.0
+            continue
 
         scope_vars = list(get_variables([constraint]))
         if len(scope_vars) < 2:
@@ -438,25 +369,55 @@ def query_driven_refinement(
 
             model = cp.Model()
 
+            # Helper function to check if a constraint's scope contains both xi and xj
+            # If so, the constraint would be violated by xi==xj and should be excluded
+            def constraint_conflicts_with_test(c, var_i, var_j):
+                """Check if constraint c contains both var_i and var_j in its scope."""
+                if isinstance(c, AllDifferent):
+                    scope_vars = list(get_variables([c]))
+                    scope_names = {str(getattr(v, 'name', v)) for v in scope_vars}
+                    xi_name = str(getattr(var_i, 'name', var_i))
+                    xj_name = str(getattr(var_j, 'name', var_j))
+                    return xi_name in scope_names and xj_name in scope_names
+                return False
             
             if additional_constraints:
-                model += list(additional_constraints)
-                print(f"    [MODEL] Including {len(additional_constraints)} B_fixed constraints")
+                # Filter B_fixed to exclude constraints that conflict with xi==xj
+                compatible_bias = [c for c in additional_constraints 
+                                  if not constraint_conflicts_with_test(c, xi, xj)]
+                if compatible_bias:
+                    model += compatible_bias
+                excluded_bias = len(additional_constraints) - len(compatible_bias)
+                if excluded_bias > 0:
+                    print(f"    [MODEL] Including {len(compatible_bias)} B_fixed constraints (excluded {excluded_bias} conflicting)")
+                else:
+                    print(f"    [MODEL] Including {len(compatible_bias)} B_fixed constraints")
 
             if use_all_candidates_in_model:
-                
-                
+                # Include all other candidates (C_G \ {c}) that don't conflict with xi==xj
+                # Use 'is not' for identity comparison to avoid CPMpy expression creation
                 other_candidates = [c for c in remaining_constraints 
-                                   if c != constraint and c not in removed_constraints]
-                for other_c in other_candidates:
+                                   if c is not constraint and c not in removed_constraints]
+                compatible_candidates = [c for c in other_candidates
+                                        if not constraint_conflicts_with_test(c, xi, xj)]
+                for other_c in compatible_candidates:
                     model += other_c
-                print(f"    [MODEL] Including {len(other_candidates)} other candidate constraints (C_G \\ {{c}})")
+                excluded_cands = len(other_candidates) - len(compatible_candidates)
+                if excluded_cands > 0:
+                    print(f"    [MODEL] Including {len(compatible_candidates)} other candidates (excluded {excluded_cands} conflicting with xi==xj)")
+                else:
+                    print(f"    [MODEL] Including {len(compatible_candidates)} other candidate constraints (C_G \\ {{c}})")
             else:
-                
-                for validated_c in validated_constraints:
+                # Only include validated constraints that don't conflict with xi==xj
+                compatible_validated = [c for c in validated_constraints
+                                       if not constraint_conflicts_with_test(c, xi, xj)]
+                for validated_c in compatible_validated:
                     model += validated_c
-                if validated_constraints:
-                    print(f"    [MODEL] Including {len(validated_constraints)} validated constraints")
+                excluded_val = len(validated_constraints) - len(compatible_validated)
+                if excluded_val > 0:
+                    print(f"    [MODEL] Including {len(compatible_validated)} validated constraints (excluded {excluded_val} conflicting)")
+                elif validated_constraints:
+                    print(f"    [MODEL] Including {len(compatible_validated)} validated constraints")
 
             
             model += (xi == test_value)
@@ -491,49 +452,49 @@ def query_driven_refinement(
                 print(f"       Full assignment has {len(assignment_dict)} variables")
 
             assignment_sig = tuple(sorted((v.name, v.value()) for v in solver_vars if v.value() is not None))
-            if assignment_sig in query_cache:
-                is_valid = query_cache[assignment_sig]
-                print(f"    -> [CACHED] Oracle response: {'YES' if is_valid else 'NO'}")
+            
+            if assignment_sig in query_asked:
+                print(f"    -> [SKIP] Duplicate query signature, already asked")
+                continue
+            
+            query_asked.add(assignment_sig)
+            total_queries += 1
+
+            manual_result = manual_sudoku_oracle_check(assignment_dict, oracle, oracle_vars)
+
+            if manual_result is not None:
+                answer = manual_result
+                print(f"    -> [MANUAL ORACLE] Result: {'YES (valid)' if answer else 'NO (invalid)'}")
             else:
-                total_queries += 1
+                print(f"    -> [MANUAL ORACLE] Failed, using standard oracle")
+                answer = oracle.answer_membership_query(oracle_vars)
 
-                manual_result = manual_sudoku_oracle_check(assignment_dict, oracle, oracle_vars)
-
-                if manual_result is not None:
-                    answer = manual_result
-                    print(f"    -> [MANUAL ORACLE] Result: {'YES (valid)' if answer else 'NO (invalid)'}")
-                else:
-                    print(f"    -> [MANUAL ORACLE] Failed, using standard oracle")
-                    answer = oracle.answer_membership_query(oracle_vars)
-
-                is_valid = interpret_oracle_response(answer)
-                query_cache[assignment_sig] = is_valid
-                print(f"    -> Oracle response: {'YES' if is_valid else 'NO'}")
+            is_valid = interpret_oracle_response(answer)
+            print(f"    -> Oracle response: {'YES' if is_valid else 'NO'}")
 
             if is_valid:
-                
+                # Oracle accepted: valid solution found that violates constraint c
+              
+                E_plus_new.append(assignment_dict.copy())  # Accumulate positive example
                 removed_constraints.add(constraint)
                 probability_map.pop(constraint, None)
                 print("    -> Constraint REFUTED by valid counterexample. Removing from candidate set.")
+                print(f"    -> Added to E^+_new (now {len(E_plus_new)} positive examples)")
                 break
             else:
-                
-                
+                # Oracle rejected: update probability using supporting evidence formula
+                #  P(c) ← P(c) + (1-P(c))·(1-α)
                 old_prob = probability_map.get(constraint, 0.5)
-                updated_prob = bayesian_update_lion19(
-                    old_prob,
-                    p_d_given_valid=p_d_given_valid,
-                    p_d_given_invalid=p_d_given_invalid
-                )
+                updated_prob = bayesian_update_lion19(old_prob, alpha=alpha)
                 probability_map[constraint] = updated_prob
-                print(f"    -> Constraint SUPPORTED. Bayesian update: {old_prob:.3f} -> {updated_prob:.3f}")
+                print(f"    -> Constraint SUPPORTED. Probability update: {old_prob:.3f} -> {updated_prob:.3f}")
 
-                if updated_prob >= theta_max:
-                    print(f"    -> Probability {updated_prob:.3f} >= theta_max ({theta_max}); ACCEPTING constraint.")
+                if updated_prob >= theta_accept:
+                    print(f"    -> Probability {updated_prob:.3f} >= theta_accept ({theta_accept}); ACCEPTING constraint.")
                     validated_constraints.add(constraint)
                     break
 
-                print(f"    -> Probability {updated_prob:.3f} < theta_max ({theta_max}); continuing to next pair.")
+                print(f"    -> Probability {updated_prob:.3f} < theta_accept ({theta_accept}); continuing to next pair.")
 
         if not violation_found:
             print("  [ACCEPT] No violating assignment found; accepting constraint.")
@@ -554,14 +515,16 @@ def query_driven_refinement(
         "pairs_considered": pairs_considered,
         "scoring_alpha": scoring_alpha,
         "scoring_beta": scoring_beta,
-        "p_d_given_valid": p_d_given_valid,
-        "p_d_given_invalid": p_d_given_invalid,
+        "alpha": alpha,
+        "theta_accept": theta_accept,
+        "positive_examples_accumulated": len(E_plus_new),
     }
 
     print(f"\n{'='*70}")
-    print(f"LION19 Refinement complete for {experiment_name}")
+    print(f"LION19 Heuristic-Based Refinement complete for {experiment_name}")
     print(f"Validated constraints: {stats['validated']}")
     print(f"Rejected constraints: {stats['rejected']}")
+    print(f"Accumulated positive examples (E^+_new): {len(E_plus_new)}")
     print(f"Total queries: {total_queries}")
     print(f"Total time: {elapsed_total:.2f}s")
     if elapsed_total > 0 and total_queries > 0:
@@ -570,7 +533,7 @@ def query_driven_refinement(
     print(f"Pairs considered: {pairs_considered}")
     print(f"{'='*70}\n")
 
-    return final_constraints, probability_map, stats, removed_constraints
+    return final_constraints, probability_map, stats, removed_constraints, E_plus_new
 
 
 def main():
@@ -582,20 +545,17 @@ def main():
     
     
     parser.add_argument("--scoring_alpha", type=float, default=1.0, 
-                        help="α parameter for scoring function (Manhattan distance weight)")
+                        help="alpha_d parameter for scoring function (Manhattan distance weight)")
     parser.add_argument("--scoring_beta", type=float, default=0.5,
-                        help="β parameter for scoring function (involvement score weight)")
+                        help="beta_I parameter for scoring function (involvement score weight)")
     
+    parser.add_argument("--alpha", type=float, default=0.42,
+                        help="Learning rate alpha for probability update: P(c) <- P(c) + (1-P(c))*(1-alpha)")
     
-    parser.add_argument("--p_d_given_valid", type=float, default=0.95,
-                        help="P(D|c∈C*) - probability oracle rejects if constraint is valid")
-    parser.add_argument("--p_d_given_invalid", type=float, default=0.05,
-                        help="P(D|c∉C*) - probability oracle rejects if constraint is invalid")
-    
-    parser.add_argument("--theta_max", type=float, default=0.98, help="Acceptance threshold")
+    parser.add_argument("--theta_accept", type=float, default=0.9, help="Acceptance threshold theta_accept")
     parser.add_argument("--max_queries", type=int, default=500, help="Maximum membership queries")
     parser.add_argument("--timeout", type=int, default=600, help="Overall timeout in seconds")
-    parser.add_argument("--solver_timeout", type=int, default=30, help="Solver timeout per query (s)")
+    parser.add_argument("--solver_timeout", type=int, default=5, help="Solver timeout per query (s), paper default: 5s")
     parser.add_argument("--prior", type=float, default=0.5, help="Default prior probability")
     parser.add_argument("--random_seed", type=int, default=42, help="Random seed for reproducibility")
     parser.add_argument(
@@ -604,36 +564,34 @@ def main():
         help="Include Phase 1 pruned bias (B_fixed) as hard constraints in queries",
     )
     parser.add_argument(
-        "--use_all_candidates",
+        "--no_all_candidates",
         action="store_true",
         default=False,
-        help="Include all other candidates (C_G \\ {c}) in model M' (original LION19 paper behavior)",
+        help="Disable including all other candidates (C_G^cand \\ {c}) in model C' (paper default: include them)",
     )
 
     args = parser.parse_args()
     
-    
-    use_all_candidates_in_model = args.use_all_candidates
+    use_all_candidates_in_model = not args.no_all_candidates
 
     print(f"\n{'='*70}")
-    print("HCAR AllDifferent - LION19 Query-Driven Phase 2")
+    print("HCAR AllDifferent - LION19 Heuristic-Based Refinement (Phase 2)")
     print(f"{'='*70}")
     print(f"Experiment: {args.experiment}")
-    print(f"\nLION19 Scoring Function: score(x_i,x_j) = α·d(x_i,x_j) - β·(I(x_i)+I(x_j))")
-    print(f"  α (scoring_alpha): {args.scoring_alpha}")
-    print(f"  β (scoring_beta): {args.scoring_beta}")
-    print(f"\nLION19 Bayesian Update:")
-    print(f"  P(D|c∈C*): {args.p_d_given_valid}")
-    print(f"  P(D|c∉C*): {args.p_d_given_invalid}")
+    print(f"\nLION19 Scoring Function: score(x_i,x_j) = alpha_d*d(x_i,x_j) - beta_I*(I(x_i)+I(x_j))")
+    print(f"  alpha_d (scoring_alpha): {args.scoring_alpha}")
+    print(f"  beta_I (scoring_beta): {args.scoring_beta}")
+    print(f"\nLION19 Probability Update (Equation 7):")
+    print(f"  alpha (learning rate): {args.alpha}")
     print(f"\nOther Parameters:")
-    print(f"  Theta_max: {args.theta_max}")
-    print(f"  Max queries: {args.max_queries}")
+    print(f"  theta_accept (acceptance threshold): {args.theta_accept}")
+    print(f"  Q_budget (max queries): {args.max_queries}")
     print(f"  Timeout: {args.timeout}s")
     print(f"  Solver timeout per query: {args.solver_timeout}s")
     print(f"  Prior probability: {args.prior}")
     print(f"  Random seed: {args.random_seed}")
     print(f"  Use B_fixed constraints: {args.use_bias}")
-    print(f"  Model M' includes: {'All candidates (C_G \\ {{c}})' if use_all_candidates_in_model else 'Only validated constraints'}")
+    print(f"  Model C' includes: {'All candidates (C_G^cand \\ {{c}})' if use_all_candidates_in_model else 'Only validated constraints'}")
     print(f"{'='*70}\n")
 
     instance, oracle = construct_instance(args.experiment)
@@ -669,7 +627,7 @@ def main():
         print("\n[ERROR] No candidate constraints available. Exiting.")
         return 1
 
-    final_constraints, probability_map, stats, removed_constraints = query_driven_refinement(
+    final_constraints, probability_map, stats, removed_constraints, E_plus_new = query_driven_refinement(
         args.experiment,
         candidate_constraints,
         solver_variables,
@@ -678,9 +636,8 @@ def main():
         initial_probabilities,
         scoring_alpha=args.scoring_alpha,
         scoring_beta=args.scoring_beta,
-        p_d_given_valid=args.p_d_given_valid,
-        p_d_given_invalid=args.p_d_given_invalid,
-        theta_max=args.theta_max,
+        alpha=args.alpha,
+        theta_accept=args.theta_accept,
         max_queries=args.max_queries,
         timeout=args.timeout,
         solver_timeout=args.solver_timeout,
@@ -812,6 +769,10 @@ def main():
 
     stats['cp_implication'] = cp_implication_results
 
+    # Combine original E+ with newly accumulated E^+_new
+    E_plus_original = phase1_data.get("E+", []) if phase1_data else []
+    E_plus_all = list(E_plus_original) + E_plus_new if E_plus_original else E_plus_new
+    
     phase2_output = {
         "C_validated": final_constraints,
         "C_validated_strs": [str(c) for c in final_constraints],
@@ -820,22 +781,24 @@ def main():
         "phase2_stats": stats,
         "removed_constraints": [str(c) for c in removed_constraints],
         "phase1_data": phase1_data if phase1_data is not None else None,
-        "E_plus": phase1_data.get("E+", None) if phase1_data else None,
+        "E_plus": E_plus_original,  # Original training examples
+        "E_plus_new": E_plus_new,    # Accumulated positive examples from refinement
+        "E_plus_all": E_plus_all,    # Combined: E+ ∪ E^+_new
         "B_fixed": phase1_data.get("B_fixed", None) if phase1_data else None,
         "all_variables": oracle_variables,
         "metadata": {
-            "approach": "lion19",
+            "approach": "lion19_heuristic",
             "scoring_alpha": args.scoring_alpha,
             "scoring_beta": args.scoring_beta,
-            "p_d_given_valid": args.p_d_given_valid,
-            "p_d_given_invalid": args.p_d_given_invalid,
-            "theta_max": args.theta_max,
+            "alpha": args.alpha,
+            "theta_accept": args.theta_accept,
             "random_seed": args.random_seed,
             "solver_timeout": args.solver_timeout,
             "use_all_candidates_in_model": use_all_candidates_in_model,
             "timestamp": time.strftime('%Y-%m-%d %H:%M:%S'),
             "total_queries": stats['queries'],
             "total_time": stats['time'],
+            "positive_examples_accumulated": len(E_plus_new),
             "precision": precision,
             "recall": recall,
         },
@@ -899,6 +862,7 @@ def main():
     print(f"Phase 2 outputs saved to: {phase2_pickle_path}")
     print(f"  - Validated constraints: {len(final_constraints)}")
     print(f"  - Rejected constraints: {len(removed_constraints)}")
+    print(f"  - Accumulated positive examples (E^+_new): {len(E_plus_new)}")
     print(f"  - CP implication log saved to: {cp_implication_log_path}")
 
     return 0
