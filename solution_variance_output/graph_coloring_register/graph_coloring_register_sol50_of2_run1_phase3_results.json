@@ -1,52 +1,51 @@
 {
   "experiment": "graph_coloring_register",
-  "timestamp": "2025-12-16T23:52:34.526920",
+  "timestamp": "2025-12-17T14:35:18.134529",
   "phase1": {
     "queries": 0,
     "time": 0,
     "E_plus_size": 50,
-    "B_fixed_size": 50
+    "B_fixed_size": 44
   },
   "phase2": {
-    "queries": 11,
-    "time": 0.24691128730773926,
-    "validated_globals": 9,
+    "queries": 18,
+    "time": 1.2007591724395752,
+    "validated_globals": 8,
     "validated_globals_list": [
-      "alldifferent(register[1],register[4],register[7])",
-      "alldifferent(register[1],register[2],register[3],register[4])",
-      "alldifferent(register[8],register[9],register[10],register[11])",
       "alldifferent(register[4],register[5],register[6],register[7])",
-      "alldifferent(register[0],register[9],register[10])",
-      "alldifferent(register[0],register[1],register[2])",
+      "alldifferent(register[8],register[9],register[10],register[11])",
       "alldifferent(register[2],register[5],register[8],register[11])",
-      "alldifferent(register[6],register[7],register[8])",
-      "alldifferent(register[3],register[4],register[5])"
+      "alldifferent(register[1],register[2],register[3],register[4])",
+      "alldifferent(register[0],register[1],register[2])",
+      "alldifferent(register[0],register[9],register[10])",
+      "alldifferent(register[3],register[4],register[5])",
+      "alldifferent(register[6],register[7],register[8])"
     ]
   },
   "phase3": {
     "algorithm": "GROWACQ",
-    "queries": 17,
-    "time": 0.38570308685302734,
+    "queries": 19,
+    "time": 0.39173364639282227,
     "initial_cl": 30,
-    "pruned_bias": 19,
-    "final_model_size": 36,
+    "pruned_bias": 17,
+    "final_model_size": 34,
     "resilience": null,
     "mode": "original"
   },
   "total": {
-    "queries": 28,
-    "time": 0.6326143741607666
+    "queries": 37,
+    "time": 1.5924928188323975
   },
   "evaluation": {
     "constraint_level": {
       "target_size": 30,
-      "learned_size": 36,
+      "learned_size": 34,
       "correct": 30,
       "missing": 0,
-      "spurious": 6,
-      "precision": 0.8333333333333334,
+      "spurious": 4,
+      "precision": 0.8823529411764706,
       "recall": 1.0,
-      "f1": 0.9090909090909091
+      "f1": 0.9375
     },
     "solution_level": {
       "s_precision": 1.0,

@@ -1,61 +1,52 @@
 {
   "experiment": "graph_coloring_register",
-  "timestamp": "2025-12-16T23:52:28.071953",
+  "timestamp": "2025-12-17T14:35:30.937866",
   "phase1": {
     "queries": 0,
     "time": 0,
-    "E_plus_size": 10,
-    "B_fixed_size": 65
+    "E_plus_size": 50,
+    "B_fixed_size": 50
   },
   "phase2": {
-    "queries": 0,
-    "time": 0.4138987064361572,
-    "validated_globals": 18,
+    "queries": 11,
+    "time": 0.3026463985443115,
+    "validated_globals": 9,
     "validated_globals_list": [
       "alldifferent(register[1],register[4],register[7])",
-      "alldifferent(register[0],register[3],register[6])",
-      "alldifferent(register[8],register[6],register[7],register[2],register[1])",
-      "alldifferent(register[9],register[0],register[8],register[4],register[2],register[6],register[10],register[3])",
-      "alldifferent(register[5],register[8],register[7],register[11],register[4],register[1])",
-      "alldifferent(register[5],register[7],register[1],register[8],register[6],register[10],register[11])",
-      "alldifferent(register[0],register[5],register[3],register[8])",
-      "alldifferent(register[9],register[10],register[4],register[0])",
-      "alldifferent(register[9],register[7],register[3],register[11],register[8],register[4])",
-      "alldifferent(register[10],register[4],register[8],register[3],register[9])",
-      "alldifferent(register[2],register[5],register[8],register[11])",
-      "alldifferent(register[0],register[9],register[10])",
+      "alldifferent(register[0],register[1],register[2])",
       "alldifferent(register[6],register[7],register[8])",
-      "alldifferent(register[8],register[9],register[10],register[11])",
-      "alldifferent(register[1],register[2],register[3],register[4])",
       "alldifferent(register[4],register[5],register[6],register[7])",
+      "alldifferent(register[0],register[9],register[10])",
+      "alldifferent(register[1],register[2],register[3],register[4])",
+      "alldifferent(register[8],register[9],register[10],register[11])",
       "alldifferent(register[3],register[4],register[5])",
-      "alldifferent(register[0],register[1],register[2])"
+      "alldifferent(register[2],register[5],register[8],register[11])"
     ]
   },
   "phase3": {
     "algorithm": "GROWACQ",
-    "queries": 11,
-    "time": 0.3825814723968506,
-    "initial_cl": 47,
+    "queries": 18,
+    "time": 0.36504673957824707,
+    "initial_cl": 30,
     "pruned_bias": 19,
-    "final_model_size": 47,
+    "final_model_size": 36,
     "resilience": null,
     "mode": "original"
   },
   "total": {
-    "queries": 11,
-    "time": 0.7964801788330078
+    "queries": 29,
+    "time": 0.6676931381225586
   },
   "evaluation": {
     "constraint_level": {
       "target_size": 30,
-      "learned_size": 47,
+      "learned_size": 36,
       "correct": 30,
       "missing": 0,
-      "spurious": 17,
-      "precision": 0.6382978723404256,
+      "spurious": 6,
+      "precision": 0.8333333333333334,
       "recall": 1.0,
-      "f1": 0.7792207792207793
+      "f1": 0.9090909090909091
     },
     "solution_level": {
       "s_precision": 1.0,
