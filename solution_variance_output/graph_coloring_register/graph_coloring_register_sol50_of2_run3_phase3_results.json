@@ -1,0 +1,83 @@
+{
+  "experiment": "graph_coloring_register",
+  "timestamp": "2025-12-01T09:41:35.445804",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 50,
+    "B_fixed_size": 50
+  },
+  "phase2": {
+    "queries": 8,
+    "time": 0.19733858108520508,
+    "validated_globals": 9,
+    "validated_globals_list": [
+      "alldifferent(register[4],register[5],register[6],register[7])",
+      "alldifferent(register[0],register[9],register[10])",
+      "alldifferent(register[2],register[5],register[8],register[11])",
+      "alldifferent(register[1],register[2],register[3],register[4])",
+      "alldifferent(register[3],register[4],register[5])",
+      "alldifferent(register[6],register[7],register[8])",
+      "alldifferent(register[8],register[9],register[10],register[11])",
+      "alldifferent(register[0],register[1],register[2])",
+      "alldifferent(register[1],register[4],register[7])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 20,
+    "time": 0.40439510345458984,
+    "initial_cl": 31,
+    "pruned_bias": 19,
+    "final_model_size": 38,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 0,
+        "unresolved_scopes": 0,
+        "unresolved_details": []
+      },
+      "algorithm": {
+        "skipped_scopes_count": 0,
+        "skipped_scopes": [],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 0,
+          "skipped_scopes": [],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 0
+    }
+  },
+  "total": {
+    "queries": 28,
+    "time": 0.6017336845397949
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 30,
+      "learned_size": 38,
+      "correct": 30,
+      "missing": 0,
+      "spurious": 8,
+      "precision": 0.7894736842105263,
+      "recall": 1.0,
+      "f1": 0.8823529411764706
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 1,
+      "target_solutions": 3,
+      "intersection_solutions": 0,
+      "is_complete": false,
+      "learned_incomplete": true,
+      "target_incomplete": true
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "experiment": "graph_coloring_register",
+  "timestamp": "2025-12-16T23:52:04.712875",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 5,
+    "B_fixed_size": 77
+  },
+  "phase2": {
+    "queries": 0,
+    "time": 1.0298919677734375,
+    "validated_globals": 28,
+    "validated_globals_list": [
+      "alldifferent(register[10],register[9],register[2],register[4])",
+      "alldifferent(register[8],register[6],register[7],register[2],register[1])",
+      "alldifferent(register[5],register[8],register[7],register[11],register[4],register[1])",
+      "alldifferent(register[9],register[0],register[8],register[4],register[2],register[6],register[10],register[3])",
+      "alldifferent(register[5],register[7],register[1],register[8],register[6],register[10],register[11])",
+      "alldifferent(register[8],register[11],register[10],register[2],register[4],register[9])",
+      "alldifferent(register[0],register[3],register[6])",
+      "alldifferent(register[10],register[4],register[8],register[3],register[9])",
+      "alldifferent(register[1],register[3],register[9],register[7],register[2],register[6])",
+      "alldifferent(register[8],register[6],register[4],register[9],register[3])",
+      "alldifferent(register[1],register[4],register[7])",
+      "alldifferent(register[7],register[0],register[8],register[4],register[9],register[3],register[1])",
+      "alldifferent(register[2],register[0],register[3],register[9],register[7],register[1],register[8],register[5])",
+      "alldifferent(register[9],register[10],register[4],register[0])",
+      "alldifferent(register[8],register[1],register[9],register[6],register[2],register[5],register[11])",
+      "alldifferent(register[0],register[5],register[3],register[8])",
+      "alldifferent(register[4],register[10],register[11],register[3])",
+      "alldifferent(register[1],register[9],register[5],register[2],register[3],register[8],register[11],register[4],register[7])",
+      "alldifferent(register[10],register[8],register[9],register[0],register[2])",
+      "alldifferent(register[9],register[7],register[3],register[11],register[8],register[4])",
+      "alldifferent(register[6],register[7],register[8])",
+      "alldifferent(register[0],register[1],register[2])",
+      "alldifferent(register[8],register[9],register[10],register[11])",
+      "alldifferent(register[2],register[5],register[8],register[11])",
+      "alldifferent(register[4],register[5],register[6],register[7])",
+      "alldifferent(register[3],register[4],register[5])",
+      "alldifferent(register[1],register[2],register[3],register[4])",
+      "alldifferent(register[0],register[9],register[10])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 14,
+    "time": 0.5434865951538086,
+    "initial_cl": 58,
+    "pruned_bias": 29,
+    "final_model_size": 58,
+    "resilience": null,
+    "mode": "original"
+  },
+  "total": {
+    "queries": 14,
+    "time": 1.573378562927246
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 30,
+      "learned_size": 58,
+      "correct": 30,
+      "missing": 0,
+      "spurious": 28,
+      "precision": 0.5172413793103449,
+      "recall": 1.0,
+      "f1": 0.6818181818181819
+    },
+    "solution_level": {
+      "s_precision": 1.0,
+      "s_recall": 1.0,
+      "s_f1": 1.0,
+      "learned_solutions": 1,
+      "target_solutions": 1,
+      "intersection_solutions": 1,
+      "is_complete": false,
+      "learned_incomplete": true,
+      "target_incomplete": true
+    }
+  }
+}

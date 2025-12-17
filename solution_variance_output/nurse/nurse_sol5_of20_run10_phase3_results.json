@@ -1,0 +1,153 @@
+{
+  "experiment": "nurse",
+  "timestamp": "2025-12-01T12:56:17.318507",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 5,
+    "B_fixed_size": 1629
+  },
+  "phase2": {
+    "queries": 50,
+    "time": 10.529011249542236,
+    "validated_globals": 28,
+    "validated_globals_list": [
+      "alldifferent(var[2,0,0],var[2,0,1],var[2,1,0],var[2,1,1],var[2,2,0],var[2,2,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[0,1,0],var[0,1,1],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[4,0,0],var[4,0,1],var[4,1,0],var[4,1,1],var[4,2,0],var[4,2,1])",
+      "alldifferent(var[5,2,0],var[5,2,1],var[6,0,0],var[6,0,1])",
+      "alldifferent(var[3,2,0],var[3,2,1],var[4,0,0],var[4,0,1])",
+      "alldifferent(var[3,0,0],var[3,0,1],var[3,1,0],var[3,1,1],var[3,2,0],var[3,2,1])",
+      "alldifferent(var[1,2,0],var[1,2,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[5,0,0],var[5,0,1],var[5,1,0],var[5,1,1],var[5,2,0],var[5,2,1])",
+      "alldifferent(var[4,2,0],var[4,2,1],var[5,0,0],var[5,0,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[1,1,0],var[1,1,1],var[1,2,0],var[1,2,1])",
+      "alldifferent(var[2,2,0],var[2,2,1],var[3,0,0],var[3,0,1])",
+      "alldifferent(var[0,2,0],var[0,2,1],var[1,0,0],var[1,0,1])",
+      "alldifferent(var[6,0,0],var[6,0,1],var[6,1,0],var[6,1,1],var[6,2,0],var[6,2,1])",
+      "alldifferent(var[4,0,1],var[5,0,0],var[3,2,0],var[6,2,1],var[2,1,0],var[2,0,0])",
+      "alldifferent(var[1,2,0],var[5,2,1],var[0,1,0],var[0,1,1],var[3,2,0])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[3,1,0],var[3,1,1])",
+      "alldifferent(var[2,2,1],var[6,2,1],var[1,2,0],var[2,1,1])",
+      "alldifferent(var[1,2,1],var[0,2,1],var[4,1,0],var[4,0,0],var[0,1,0],var[0,0,1],var[3,0,0],var[0,2,0],var[5,2,1])",
+      "alldifferent(var[1,2,0],var[3,1,0],var[3,0,0],var[2,2,1])",
+      "alldifferent(var[5,2,0],var[3,0,0],var[2,0,0],var[4,1,1],var[1,2,0])",
+      "alldifferent(var[0,2,0],var[2,2,1],var[2,0,1],var[4,0,1],var[1,0,1],var[5,1,1],var[6,2,1],var[3,2,1])",
+      "alldifferent(var[5,0,0],var[4,2,1],var[3,0,1],var[3,2,0],var[0,0,0])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[6,2,0],var[4,1,1],var[6,2,1],var[3,0,1],var[5,1,1],var[3,2,0])",
+      "alldifferent(var[3,0,0],var[0,1,0],var[4,2,0],var[5,2,1],var[4,0,1],var[0,0,1],var[6,2,0],var[6,1,0],var[3,0,1])",
+      "alldifferent(var[1,0,1],var[1,1,0],var[5,1,0],var[3,1,0],var[2,0,0],var[2,1,1],var[4,0,0],var[3,2,1])",
+      "alldifferent(var[3,2,1],var[6,2,0],var[4,2,0],var[2,2,0],var[6,2,1])",
+      "alldifferent(var[6,2,0],var[3,2,0],var[1,1,1],var[2,2,0],var[3,1,0],var[0,2,0],var[0,2,1])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 242,
+    "time": 233.89585661888123,
+    "initial_cl": 344,
+    "pruned_bias": 1424,
+    "final_model_size": 450,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 8,
+        "unresolved_scopes": 8,
+        "unresolved_details": [
+          {
+            "scope": "[var[0,0,1], var[2,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[0,2,0], var[2,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[0,2,0], var[2,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,1,1], var[0,2,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,0,1], var[0,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,1,1], var[4,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,1,1], var[2,2,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[0,2,0], var[6,0,0]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 8,
+        "skipped_scopes": [
+          "[var[0,0,1], var[2,1,0]]",
+          "[var[0,2,0], var[2,1,0]]",
+          "[var[0,2,0], var[2,1,0]]",
+          "[var[2,1,1], var[0,2,1]]",
+          "[var[4,0,1], var[0,2,0]]",
+          "[var[2,1,1], var[4,1,0]]",
+          "[var[4,1,1], var[2,2,1]]",
+          "[var[0,2,0], var[6,0,0]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 8,
+          "skipped_scopes": [
+            "[var[0,0,1], var[2,1,0]]",
+            "[var[0,2,0], var[2,1,0]]",
+            "[var[0,2,0], var[2,1,0]]",
+            "[var[2,1,1], var[0,2,1]]",
+            "[var[4,0,1], var[0,2,0]]",
+            "[var[2,1,1], var[4,1,0]]",
+            "[var[4,1,1], var[2,2,1]]",
+            "[var[0,2,0], var[6,0,0]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 16
+    }
+  },
+  "total": {
+    "queries": 292,
+    "time": 244.42486786842346
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 289,
+      "learned_size": 450,
+      "correct": 133,
+      "missing": 36,
+      "spurious": 317,
+      "precision": 0.29555555555555557,
+      "recall": 0.4602076124567474,
+      "f1": 0.3599458728010826
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 0,
+      "target_solutions": 0,
+      "intersection_solutions": 0,
+      "is_complete": true,
+      "learned_incomplete": false,
+      "target_incomplete": false
+    }
+  }
+}

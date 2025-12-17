@@ -1,0 +1,108 @@
+{
+  "experiment": "nurse",
+  "timestamp": "2025-12-01T12:44:37.312006",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 5,
+    "B_fixed_size": 1629
+  },
+  "phase2": {
+    "queries": 47,
+    "time": 11.450305938720703,
+    "validated_globals": 25,
+    "validated_globals_list": [
+      "alldifferent(var[6,0,0],var[6,0,1],var[6,1,0],var[6,1,1],var[6,2,0],var[6,2,1])",
+      "alldifferent(var[3,0,0],var[3,0,1],var[3,1,0],var[3,1,1],var[3,2,0],var[3,2,1])",
+      "alldifferent(var[0,2,0],var[0,2,1],var[1,0,0],var[1,0,1])",
+      "alldifferent(var[4,0,0],var[4,0,1],var[4,1,0],var[4,1,1],var[4,2,0],var[4,2,1])",
+      "alldifferent(var[4,2,0],var[4,2,1],var[5,0,0],var[5,0,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[0,1,0],var[0,1,1],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[1,2,0],var[1,2,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[3,2,0],var[3,2,1],var[4,0,0],var[4,0,1])",
+      "alldifferent(var[5,2,0],var[5,2,1],var[6,0,0],var[6,0,1])",
+      "alldifferent(var[2,2,0],var[2,2,1],var[3,0,0],var[3,0,1])",
+      "alldifferent(var[2,0,0],var[2,0,1],var[2,1,0],var[2,1,1],var[2,2,0],var[2,2,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[1,1,0],var[1,1,1],var[1,2,0],var[1,2,1])",
+      "alldifferent(var[5,0,0],var[5,0,1],var[5,1,0],var[5,1,1],var[5,2,0],var[5,2,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[3,1,0],var[3,1,1])",
+      "alldifferent(var[4,0,1],var[5,0,0],var[3,2,0],var[6,2,1],var[2,1,0],var[2,0,0])",
+      "alldifferent(var[3,1,1],var[4,1,1],var[3,0,0],var[1,0,1],var[4,2,1],var[6,1,1],var[4,0,0])",
+      "alldifferent(var[1,0,1],var[1,1,0],var[5,1,0],var[3,1,0],var[2,0,0],var[2,1,1],var[4,0,0],var[3,2,1])",
+      "alldifferent(var[5,1,1],var[5,0,0],var[0,1,1],var[0,0,0],var[3,1,1],var[3,0,0],var[2,1,0],var[6,1,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[1,0,0],var[3,2,1],var[3,0,0],var[3,2,0])",
+      "alldifferent(var[0,1,0],var[0,1,1],var[6,1,0],var[6,1,1])",
+      "alldifferent(var[1,2,0],var[5,2,1],var[0,1,0],var[0,1,1],var[3,2,0])",
+      "alldifferent(var[3,0,0],var[0,1,0],var[4,2,0],var[5,2,1],var[4,0,1],var[0,0,1],var[6,2,0],var[6,1,0],var[3,0,1])",
+      "alldifferent(var[5,2,0],var[3,0,0],var[2,0,0],var[4,1,1],var[1,2,0])",
+      "alldifferent(var[6,2,0],var[3,2,0],var[1,1,1],var[2,2,0],var[3,1,0],var[0,2,0],var[0,2,1])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 95,
+    "time": 105.9238965511322,
+    "initial_cl": 300,
+    "pruned_bias": 1436,
+    "final_model_size": 353,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 1,
+        "unresolved_scopes": 1,
+        "unresolved_details": [
+          {
+            "scope": "[var[6,2,0], var[3,0,0]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 1,
+        "skipped_scopes": [
+          "[var[6,2,0], var[3,0,0]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 1,
+          "skipped_scopes": [
+            "[var[6,2,0], var[3,0,0]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 2
+    }
+  },
+  "total": {
+    "queries": 142,
+    "time": 117.3742024898529
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 289,
+      "learned_size": 353,
+      "correct": 134,
+      "missing": 35,
+      "spurious": 219,
+      "precision": 0.37960339943342775,
+      "recall": 0.46366782006920415,
+      "f1": 0.41744548286604355
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 0,
+      "target_solutions": 0,
+      "intersection_solutions": 0,
+      "is_complete": true,
+      "learned_incomplete": false,
+      "target_incomplete": false
+    }
+  }
+}

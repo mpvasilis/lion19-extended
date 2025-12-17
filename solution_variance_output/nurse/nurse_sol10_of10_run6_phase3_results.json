@@ -1,0 +1,180 @@
+{
+  "experiment": "nurse",
+  "timestamp": "2025-12-01T13:20:58.653376",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 10,
+    "B_fixed_size": 1618
+  },
+  "phase2": {
+    "queries": 29,
+    "time": 8.660434246063232,
+    "validated_globals": 19,
+    "validated_globals_list": [
+      "alldifferent(var[6,0,0],var[6,0,1],var[6,1,0],var[6,1,1],var[6,2,0],var[6,2,1])",
+      "alldifferent(var[3,2,0],var[3,2,1],var[4,0,0],var[4,0,1])",
+      "alldifferent(var[3,0,0],var[3,0,1],var[3,1,0],var[3,1,1],var[3,2,0],var[3,2,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[1,1,0],var[1,1,1],var[1,2,0],var[1,2,1])",
+      "alldifferent(var[0,2,0],var[0,2,1],var[1,0,0],var[1,0,1])",
+      "alldifferent(var[1,2,0],var[1,2,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[0,1,0],var[0,1,1],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[4,0,0],var[4,0,1],var[4,1,0],var[4,1,1],var[4,2,0],var[4,2,1])",
+      "alldifferent(var[5,0,0],var[5,0,1],var[5,1,0],var[5,1,1],var[5,2,0],var[5,2,1])",
+      "alldifferent(var[4,2,0],var[4,2,1],var[5,0,0],var[5,0,1])",
+      "alldifferent(var[2,2,0],var[2,2,1],var[3,0,0],var[3,0,1])",
+      "alldifferent(var[2,0,0],var[2,0,1],var[2,1,0],var[2,1,1],var[2,2,0],var[2,2,1])",
+      "alldifferent(var[5,2,0],var[5,2,1],var[6,0,0],var[6,0,1])",
+      "alldifferent(var[6,2,0],var[4,1,1],var[6,2,1],var[3,0,1],var[5,1,1],var[3,2,0])",
+      "alldifferent(var[0,2,0],var[2,2,1],var[2,0,1],var[4,0,1],var[1,0,1],var[5,1,1],var[6,2,1],var[3,2,1])",
+      "alldifferent(var[4,0,1],var[5,0,0],var[3,2,0],var[6,2,1],var[2,1,0],var[2,0,0])",
+      "alldifferent(var[5,2,0],var[3,0,0],var[2,0,0],var[4,1,1],var[1,2,0])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[3,1,0],var[3,1,1])",
+      "alldifferent(var[5,0,0],var[4,2,1],var[3,0,1],var[3,2,0],var[0,0,0])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 452,
+    "time": 346.14889907836914,
+    "initial_cl": 205,
+    "pruned_bias": 1467,
+    "final_model_size": 393,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 14,
+        "unresolved_scopes": 14,
+        "unresolved_details": [
+          {
+            "scope": "[var[6,1,1], var[3,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,1,1], var[3,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,1,1], var[3,1,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,1,1], var[3,1,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,1,0], var[4,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,1,0], var[4,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,1,0], var[3,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,0], var[0,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,2,1], var[0,2,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[0,2,1], var[3,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[0,2,1], var[1,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,0], var[0,2,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,2,1], var[2,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,1], var[0,0,0]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 14,
+        "skipped_scopes": [
+          "[var[6,1,1], var[3,0,0]]",
+          "[var[6,1,1], var[3,0,0]]",
+          "[var[6,1,1], var[3,1,1]]",
+          "[var[6,1,1], var[3,1,1]]",
+          "[var[1,1,0], var[4,0,1]]",
+          "[var[1,1,0], var[4,0,0]]",
+          "[var[1,1,0], var[3,0,1]]",
+          "[var[3,1,0], var[0,2,0]]",
+          "[var[6,2,1], var[0,2,1]]",
+          "[var[0,2,1], var[3,0,1]]",
+          "[var[0,2,1], var[1,1,0]]",
+          "[var[3,1,0], var[0,2,1]]",
+          "[var[6,2,1], var[2,0,0]]",
+          "[var[3,1,1], var[0,0,0]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 14,
+          "skipped_scopes": [
+            "[var[6,1,1], var[3,0,0]]",
+            "[var[6,1,1], var[3,0,0]]",
+            "[var[6,1,1], var[3,1,1]]",
+            "[var[6,1,1], var[3,1,1]]",
+            "[var[1,1,0], var[4,0,1]]",
+            "[var[1,1,0], var[4,0,0]]",
+            "[var[1,1,0], var[3,0,1]]",
+            "[var[3,1,0], var[0,2,0]]",
+            "[var[6,2,1], var[0,2,1]]",
+            "[var[0,2,1], var[3,0,1]]",
+            "[var[0,2,1], var[1,1,0]]",
+            "[var[3,1,0], var[0,2,1]]",
+            "[var[6,2,1], var[2,0,0]]",
+            "[var[3,1,1], var[0,0,0]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 28
+    }
+  },
+  "total": {
+    "queries": 481,
+    "time": 354.8093333244324
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 289,
+      "learned_size": 393,
+      "correct": 131,
+      "missing": 38,
+      "spurious": 262,
+      "precision": 0.3333333333333333,
+      "recall": 0.4532871972318339,
+      "f1": 0.3841642228739003
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 0,
+      "target_solutions": 0,
+      "intersection_solutions": 0,
+      "is_complete": true,
+      "learned_incomplete": false,
+      "target_incomplete": false
+    }
+  }
+}

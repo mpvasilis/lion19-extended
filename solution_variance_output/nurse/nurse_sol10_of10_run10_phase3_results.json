@@ -1,0 +1,190 @@
+{
+  "experiment": "nurse",
+  "timestamp": "2025-12-01T13:39:13.306622",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 10,
+    "B_fixed_size": 1618
+  },
+  "phase2": {
+    "queries": 33,
+    "time": 6.445727825164795,
+    "validated_globals": 23,
+    "validated_globals_list": [
+      "alldifferent(var[3,2,0],var[3,2,1],var[4,0,0],var[4,0,1])",
+      "alldifferent(var[2,0,0],var[2,0,1],var[2,1,0],var[2,1,1],var[2,2,0],var[2,2,1])",
+      "alldifferent(var[5,0,0],var[5,0,1],var[5,1,0],var[5,1,1],var[5,2,0],var[5,2,1])",
+      "alldifferent(var[1,2,0],var[1,2,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[2,2,0],var[2,2,1],var[3,0,0],var[3,0,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[1,1,0],var[1,1,1],var[1,2,0],var[1,2,1])",
+      "alldifferent(var[5,2,0],var[5,2,1],var[6,0,0],var[6,0,1])",
+      "alldifferent(var[0,2,0],var[0,2,1],var[1,0,0],var[1,0,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[0,1,0],var[0,1,1],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[3,0,0],var[3,0,1],var[3,1,0],var[3,1,1],var[3,2,0],var[3,2,1])",
+      "alldifferent(var[4,0,0],var[4,0,1],var[4,1,0],var[4,1,1],var[4,2,0],var[4,2,1])",
+      "alldifferent(var[4,2,0],var[4,2,1],var[5,0,0],var[5,0,1])",
+      "alldifferent(var[6,0,0],var[6,0,1],var[6,1,0],var[6,1,1],var[6,2,0],var[6,2,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[3,0,0],var[0,1,0],var[4,2,0],var[5,2,1],var[4,0,1],var[0,0,1],var[6,2,0],var[6,1,0],var[3,0,1])",
+      "alldifferent(var[6,2,0],var[3,2,0],var[1,1,1],var[2,2,0],var[3,1,0],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[3,1,0],var[3,1,1])",
+      "alldifferent(var[0,1,0],var[0,1,1],var[6,1,0],var[6,1,1])",
+      "alldifferent(var[5,0,0],var[4,2,1],var[3,0,1],var[3,2,0],var[0,0,0])",
+      "alldifferent(var[4,0,1],var[5,0,0],var[3,2,0],var[6,2,1],var[2,1,0],var[2,0,0])",
+      "alldifferent(var[0,2,0],var[2,2,1],var[2,0,1],var[4,0,1],var[1,0,1],var[5,1,1],var[6,2,1],var[3,2,1])",
+      "alldifferent(var[6,2,0],var[4,1,1],var[6,2,1],var[3,0,1],var[5,1,1],var[3,2,0])",
+      "alldifferent(var[5,2,0],var[3,0,0],var[2,0,0],var[4,1,1],var[1,2,0])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 353,
+    "time": 214.5669150352478,
+    "initial_cl": 265,
+    "pruned_bias": 1445,
+    "final_model_size": 392,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 15,
+        "unresolved_scopes": 15,
+        "unresolved_details": [
+          {
+            "scope": "[var[2,1,0], var[5,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,1,1], var[5,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,1,0], var[5,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,1,0], var[5,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,1,1], var[5,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,2,1], var[5,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,2,0], var[5,2,0], var[3,2,1]]",
+            "target": "[(var[3,2,0]) != (var[3,2,1]), (var[3,2,0]) != (var[3,2,1])]"
+          },
+          {
+            "scope": "[var[5,2,1], var[4,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,2,0], var[4,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,2,0], var[2,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,2,0], var[2,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,2,0], var[5,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,2,0], var[5,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,0,0], var[5,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,1,1], var[6,0,1]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 15,
+        "skipped_scopes": [
+          "[var[2,1,0], var[5,0,0]]",
+          "[var[2,1,1], var[5,0,0]]",
+          "[var[2,1,0], var[5,0,1]]",
+          "[var[2,1,0], var[5,0,1]]",
+          "[var[2,1,1], var[5,0,1]]",
+          "[var[2,2,1], var[5,0,1]]",
+          "[var[3,2,0], var[5,2,0], var[3,2,1]]",
+          "[var[5,2,1], var[4,0,0]]",
+          "[var[1,2,0], var[4,0,0]]",
+          "[var[1,2,0], var[2,2,0]]",
+          "[var[1,2,0], var[2,2,0]]",
+          "[var[1,2,0], var[5,1,0]]",
+          "[var[1,2,0], var[5,1,0]]",
+          "[var[1,0,0], var[5,0,0]]",
+          "[var[2,1,1], var[6,0,1]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 15,
+          "skipped_scopes": [
+            "[var[2,1,0], var[5,0,0]]",
+            "[var[2,1,1], var[5,0,0]]",
+            "[var[2,1,0], var[5,0,1]]",
+            "[var[2,1,0], var[5,0,1]]",
+            "[var[2,1,1], var[5,0,1]]",
+            "[var[2,2,1], var[5,0,1]]",
+            "[var[3,2,0], var[5,2,0], var[3,2,1]]",
+            "[var[5,2,1], var[4,0,0]]",
+            "[var[1,2,0], var[4,0,0]]",
+            "[var[1,2,0], var[2,2,0]]",
+            "[var[1,2,0], var[2,2,0]]",
+            "[var[1,2,0], var[5,1,0]]",
+            "[var[1,2,0], var[5,1,0]]",
+            "[var[1,0,0], var[5,0,0]]",
+            "[var[2,1,1], var[6,0,1]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 30
+    }
+  },
+  "total": {
+    "queries": 386,
+    "time": 221.0126428604126
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 289,
+      "learned_size": 392,
+      "correct": 134,
+      "missing": 35,
+      "spurious": 258,
+      "precision": 0.34183673469387754,
+      "recall": 0.46366782006920415,
+      "f1": 0.3935389133627019
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 0,
+      "target_solutions": 0,
+      "intersection_solutions": 0,
+      "is_complete": true,
+      "learned_incomplete": false,
+      "target_incomplete": false
+    }
+  }
+}

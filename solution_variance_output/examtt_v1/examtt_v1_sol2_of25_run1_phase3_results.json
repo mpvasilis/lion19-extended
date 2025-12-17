@@ -1,0 +1,80 @@
+{
+  "experiment": "examtt_v1",
+  "timestamp": "2025-12-15T16:58:56.830856",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 2,
+    "B_fixed_size": 929
+  },
+  "phase2": {
+    "queries": 64,
+    "time": 10.053229093551636,
+    "validated_globals": 26,
+    "validated_globals_list": [
+      "alldifferent(var[0,3],var[1,3],var[2,3],var[3,3],var[4,3],var[5,3])",
+      "alldifferent(var[0,3],var[1,3],var[2,3],var[3,3],var[4,3],var[5,3],var[0,4],var[1,4],var[2,4],var[3,4],var[4,4],var[5,4])",
+      "alldifferent(var[0,0],var[0,1],var[0,2],var[0,3],var[0,4],var[1,0],var[1,1],var[1,2],var[1,3],var[1,4])",
+      "alldifferent(var[0,0],var[1,0],var[2,0],var[3,0],var[4,0],var[5,0])",
+      "alldifferent(var[2,2],var[2,3],var[3,2],var[3,3])",
+      "alldifferent(var[0,2],var[1,2],var[2,2],var[3,2],var[4,2],var[5,2],var[0,3],var[1,3],var[2,3],var[3,3],var[4,3],var[5,3])",
+      "alldifferent(var[2,0],var[2,1],var[2,2],var[2,3],var[2,4],var[3,0],var[3,1],var[3,2],var[3,3],var[3,4])",
+      "alldifferent(var[0,2],var[1,2],var[2,2],var[3,2],var[4,2],var[5,2])",
+      "alldifferent(var[0,1],var[1,1],var[2,1],var[3,1],var[4,1],var[5,1])",
+      "alldifferent(var[4,0],var[4,1],var[5,0],var[5,1])",
+      "alldifferent(var[1,0],var[1,1],var[1,2],var[1,3],var[1,4],var[2,0],var[2,1],var[2,2],var[2,3],var[2,4])",
+      "alldifferent(var[2,0],var[2,1],var[3,0],var[3,1])",
+      "alldifferent(var[0,0],var[1,0],var[2,0],var[3,0],var[4,0],var[5,0],var[0,1],var[1,1],var[2,1],var[3,1],var[4,1],var[5,1])",
+      "alldifferent(var[0,1],var[1,1],var[2,1],var[3,1],var[4,1],var[5,1],var[0,2],var[1,2],var[2,2],var[3,2],var[4,2],var[5,2])",
+      "alldifferent(var[0,0],var[0,1],var[1,0],var[1,1])",
+      "alldifferent(var[0,4],var[1,4],var[2,4],var[3,4],var[4,4],var[5,4])",
+      "alldifferent(var[0,2],var[0,3],var[1,2],var[1,3])",
+      "alldifferent(var[3,0],var[3,1],var[3,2],var[3,3],var[3,4],var[4,0],var[4,1],var[4,2],var[4,3],var[4,4])",
+      "alldifferent(var[4,0],var[4,1],var[4,2],var[4,3],var[4,4],var[5,0],var[5,1],var[5,2],var[5,3],var[5,4])",
+      "alldifferent((var[1,0]) // 6,(var[1,1]) // 6,(var[1,2]) // 6,(var[1,3]) // 6,(var[1,4]) // 6)",
+      "alldifferent((var[3,0]) // 6,(var[3,1]) // 6,(var[3,2]) // 6,(var[3,3]) // 6,(var[3,4]) // 6)",
+      "alldifferent((var[4,0]) // 6,(var[4,1]) // 6,(var[4,2]) // 6,(var[4,3]) // 6,(var[4,4]) // 6)",
+      "alldifferent((var[5,0]) // 6,(var[5,1]) // 6,(var[5,2]) // 6,(var[5,3]) // 6,(var[5,4]) // 6)",
+      "alldifferent((var[0,0]) // 6,(var[0,1]) // 6,(var[0,2]) // 6,(var[0,3]) // 6,(var[0,4]) // 6)",
+      "alldifferent((var[2,0]) // 6,(var[2,1]) // 6,(var[2,2]) // 6,(var[2,3]) // 6,(var[2,4]) // 6)",
+      "alldifferent(var[0,0],var[0,1],var[0,2],var[0,3],var[0,4],var[1,0],var[1,1],var[1,2],var[1,3],var[1,4],var[2,0],var[2,1],var[2,2],var[2,3],var[2,4],var[3,0],var[3,1],var[3,2],var[3,3],var[3,4],var[4,0],var[4,1],var[4,2],var[4,3],var[4,4],var[5,0],var[5,1],var[5,2],var[5,3],var[5,4])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 0,
+    "time": 0.3783092498779297,
+    "initial_cl": 495,
+    "pruned_bias": 0,
+    "final_model_size": 495,
+    "resilience": null,
+    "mode": "original"
+  },
+  "total": {
+    "queries": 64,
+    "time": 10.431538343429565
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 197928,
+      "learned_size": 495,
+      "correct": 435,
+      "missing": 197493,
+      "spurious": 60,
+      "precision": 0.8787878787878788,
+      "recall": 0.00219776888565539,
+      "f1": 0.004384572353003433
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 1,
+      "target_solutions": 0,
+      "intersection_solutions": 0,
+      "is_complete": false,
+      "learned_incomplete": true,
+      "target_incomplete": false
+    }
+  }
+}

@@ -1,0 +1,321 @@
+{
+  "experiment": "nurse",
+  "timestamp": "2025-11-28T22:29:50.247655",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 10,
+    "B_fixed_size": 1618
+  },
+  "phase2": {
+    "queries": 28,
+    "time": 13.328970432281494,
+    "validated_globals": 16,
+    "validated_globals_list": [
+      "alldifferent(var[5,2,0],var[5,2,1],var[6,0,0],var[6,0,1])",
+      "alldifferent(var[2,0,0],var[2,0,1],var[2,1,0],var[2,1,1],var[2,2,0],var[2,2,1])",
+      "alldifferent(var[3,2,0],var[3,2,1],var[4,0,0],var[4,0,1])",
+      "alldifferent(var[2,2,0],var[2,2,1],var[3,0,0],var[3,0,1])",
+      "alldifferent(var[3,0,0],var[3,0,1],var[3,1,0],var[3,1,1],var[3,2,0],var[3,2,1])",
+      "alldifferent(var[4,0,0],var[4,0,1],var[4,1,0],var[4,1,1],var[4,2,0],var[4,2,1])",
+      "alldifferent(var[4,2,0],var[4,2,1],var[5,0,0],var[5,0,1])",
+      "alldifferent(var[6,0,0],var[6,0,1],var[6,1,0],var[6,1,1],var[6,2,0],var[6,2,1])",
+      "alldifferent(var[5,0,0],var[5,0,1],var[5,1,0],var[5,1,1],var[5,2,0],var[5,2,1])",
+      "alldifferent(var[1,2,0],var[1,2,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[1,1,0],var[1,1,1],var[1,2,0],var[1,2,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[0,1,0],var[0,1,1],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[0,2,0],var[0,2,1],var[1,0,0],var[1,0,1])",
+      "alldifferent(var[0,1,0],var[0,1,1],var[6,1,0],var[6,1,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[3,1,0],var[3,1,1])",
+      "alldifferent(var[5,0,0],var[4,2,1],var[3,0,1],var[3,2,0],var[0,0,0])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 938,
+    "time": 993.5094051361084,
+    "initial_cl": 146,
+    "pruned_bias": 1483,
+    "final_model_size": 464,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 38,
+        "unresolved_scopes": 38,
+        "unresolved_details": [
+          {
+            "scope": "[var[6,0,0], var[3,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,0,0], var[3,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,0,1], var[3,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,0,1], var[2,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,1], var[2,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,1,0], var[3,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,1,1], var[6,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,1,1], var[6,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,1,1], var[2,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,2,0], var[3,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,2,0], var[2,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,2,0], var[3,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,1,0], var[4,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,2,0], var[6,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,1,0], var[3,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,0], var[6,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,1], var[6,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,0], var[6,1,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,2,0], var[2,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,1,0], var[2,1,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,1,0], var[3,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,1,0], var[3,1,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,1,0], var[4,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,1,0], var[3,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,1,1], var[2,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,1,1], var[3,1,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[2,2,0], var[1,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,0], var[1,2,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,2,0], var[1,2,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,2,1], var[4,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,2,0], var[1,2,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[1,0,1], var[2,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,0,0], var[0,0,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,2,0], var[0,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[3,1,1], var[0,0,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[4,0,0], var[0,1,1]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[5,0,1], var[0,2,0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[var[6,0,0], var[0,2,1]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 38,
+        "skipped_scopes": [
+          "[var[6,0,0], var[3,2,0]]",
+          "[var[6,0,0], var[3,2,0]]",
+          "[var[6,0,1], var[3,2,0]]",
+          "[var[3,0,1], var[2,0,0]]",
+          "[var[3,1,1], var[2,0,0]]",
+          "[var[4,1,0], var[3,2,0]]",
+          "[var[4,1,1], var[6,0,0]]",
+          "[var[4,1,1], var[6,0,0]]",
+          "[var[4,1,1], var[2,1,0]]",
+          "[var[4,2,0], var[3,0,0]]",
+          "[var[4,2,0], var[2,0,1]]",
+          "[var[4,2,0], var[3,1,0]]",
+          "[var[6,1,0], var[4,0,1]]",
+          "[var[2,2,0], var[6,1,0]]",
+          "[var[6,1,0], var[3,2,0]]",
+          "[var[3,1,0], var[6,1,0]]",
+          "[var[3,1,1], var[6,1,0]]",
+          "[var[3,1,0], var[6,1,1]]",
+          "[var[6,2,0], var[2,1,0]]",
+          "[var[5,1,0], var[2,1,1]]",
+          "[var[5,1,0], var[3,0,0]]",
+          "[var[5,1,0], var[3,1,1]]",
+          "[var[5,1,0], var[4,2,0]]",
+          "[var[5,1,0], var[3,2,0]]",
+          "[var[5,1,1], var[2,2,0]]",
+          "[var[5,1,1], var[3,1,0]]",
+          "[var[2,2,0], var[1,2,0]]",
+          "[var[3,1,0], var[1,2,1]]",
+          "[var[4,2,0], var[1,2,1]]",
+          "[var[1,2,1], var[4,0,1]]",
+          "[var[4,2,0], var[1,2,1]]",
+          "[var[1,0,1], var[2,0,0]]",
+          "[var[6,0,0], var[0,0,0]]",
+          "[var[3,2,0], var[0,0,1]]",
+          "[var[3,1,1], var[0,0,1]]",
+          "[var[4,0,0], var[0,1,1]]",
+          "[var[5,0,1], var[0,2,0]]",
+          "[var[6,0,0], var[0,2,1]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 38,
+          "skipped_scopes": [
+            "[var[6,0,0], var[3,2,0]]",
+            "[var[6,0,0], var[3,2,0]]",
+            "[var[6,0,1], var[3,2,0]]",
+            "[var[3,0,1], var[2,0,0]]",
+            "[var[3,1,1], var[2,0,0]]",
+            "[var[4,1,0], var[3,2,0]]",
+            "[var[4,1,1], var[6,0,0]]",
+            "[var[4,1,1], var[6,0,0]]",
+            "[var[4,1,1], var[2,1,0]]",
+            "[var[4,2,0], var[3,0,0]]",
+            "[var[4,2,0], var[2,0,1]]",
+            "[var[4,2,0], var[3,1,0]]",
+            "[var[6,1,0], var[4,0,1]]",
+            "[var[2,2,0], var[6,1,0]]",
+            "[var[6,1,0], var[3,2,0]]",
+            "[var[3,1,0], var[6,1,0]]",
+            "[var[3,1,1], var[6,1,0]]",
+            "[var[3,1,0], var[6,1,1]]",
+            "[var[6,2,0], var[2,1,0]]",
+            "[var[5,1,0], var[2,1,1]]",
+            "[var[5,1,0], var[3,0,0]]",
+            "[var[5,1,0], var[3,1,1]]",
+            "[var[5,1,0], var[4,2,0]]",
+            "[var[5,1,0], var[3,2,0]]",
+            "[var[5,1,1], var[2,2,0]]",
+            "[var[5,1,1], var[3,1,0]]",
+            "[var[2,2,0], var[1,2,0]]",
+            "[var[3,1,0], var[1,2,1]]",
+            "[var[4,2,0], var[1,2,1]]",
+            "[var[1,2,1], var[4,0,1]]",
+            "[var[4,2,0], var[1,2,1]]",
+            "[var[1,0,1], var[2,0,0]]",
+            "[var[6,0,0], var[0,0,0]]",
+            "[var[3,2,0], var[0,0,1]]",
+            "[var[3,1,1], var[0,0,1]]",
+            "[var[4,0,0], var[0,1,1]]",
+            "[var[5,0,1], var[0,2,0]]",
+            "[var[6,0,0], var[0,2,1]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 76
+    }
+  },
+  "total": {
+    "queries": 966,
+    "time": 1006.8383755683899
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 289,
+      "learned_size": 464,
+      "correct": 140,
+      "missing": 29,
+      "spurious": 324,
+      "precision": 0.3017241379310345,
+      "recall": 0.4844290657439446,
+      "f1": 0.37184594953519257
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 1,
+      "target_solutions": 0,
+      "intersection_solutions": 0,
+      "is_complete": false,
+      "learned_incomplete": true,
+      "target_incomplete": false
+    }
+  }
+}

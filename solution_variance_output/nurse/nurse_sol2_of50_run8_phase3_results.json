@@ -1,0 +1,107 @@
+{
+  "experiment": "nurse",
+  "timestamp": "2025-12-01T12:02:22.130815",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 2,
+    "B_fixed_size": 1641
+  },
+  "phase2": {
+    "queries": 86,
+    "time": 18.5678071975708,
+    "validated_globals": 33,
+    "validated_globals_list": [
+      "alldifferent(var[4,0,0],var[4,0,1],var[4,1,0],var[4,1,1],var[4,2,0],var[4,2,1])",
+      "alldifferent(var[6,0,0],var[6,0,1],var[6,1,0],var[6,1,1],var[6,2,0],var[6,2,1])",
+      "alldifferent(var[0,0,0],var[0,0,1],var[0,1,0],var[0,1,1],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[1,0,0],var[1,0,1],var[1,1,0],var[1,1,1],var[1,2,0],var[1,2,1])",
+      "alldifferent(var[4,2,0],var[4,2,1],var[5,0,0],var[5,0,1])",
+      "alldifferent(var[2,2,0],var[2,2,1],var[3,0,0],var[3,0,1])",
+      "alldifferent(var[1,2,0],var[1,2,1],var[2,0,0],var[2,0,1])",
+      "alldifferent(var[5,0,0],var[5,0,1],var[5,1,0],var[5,1,1],var[5,2,0],var[5,2,1])",
+      "alldifferent(var[0,2,0],var[0,2,1],var[1,0,0],var[1,0,1])",
+      "alldifferent(var[3,2,0],var[3,2,1],var[4,0,0],var[4,0,1])",
+      "alldifferent(var[3,0,0],var[3,0,1],var[3,1,0],var[3,1,1],var[3,2,0],var[3,2,1])",
+      "alldifferent(var[5,2,0],var[5,2,1],var[6,0,0],var[6,0,1])",
+      "alldifferent(var[2,0,0],var[2,0,1],var[2,1,0],var[2,1,1],var[2,2,0],var[2,2,1])",
+      "alldifferent(var[5,1,0],var[4,2,0],var[3,1,0],var[5,2,1],var[6,0,0],var[6,2,0])",
+      "alldifferent(var[1,0,0],var[4,1,1],var[6,1,0],var[2,2,1],var[0,2,1],var[5,0,0],var[3,2,0],var[0,0,1])",
+      "alldifferent(var[3,0,0],var[0,1,0],var[4,2,0],var[5,2,1],var[4,0,1],var[0,0,1],var[6,2,0],var[6,1,0],var[3,0,1])",
+      "alldifferent(var[1,2,0],var[3,1,0],var[3,0,0],var[2,2,1])",
+      "alldifferent(var[5,1,0],var[0,0,1],var[5,1,1],var[1,1,1])",
+      "alldifferent(var[0,2,1],var[4,0,1],var[3,2,0],var[0,0,1])",
+      "alldifferent(var[1,2,1],var[0,2,1],var[4,1,0],var[4,0,0],var[0,1,0],var[0,0,1],var[3,0,0],var[0,2,0],var[5,2,1])",
+      "alldifferent(var[1,2,0],var[5,2,1],var[0,1,0],var[0,1,1],var[3,2,0])",
+      "alldifferent(var[3,1,1],var[4,1,1],var[3,0,0],var[1,0,1],var[4,2,1],var[6,1,1],var[4,0,0])",
+      "alldifferent(var[6,2,1],var[3,0,0],var[0,0,1],var[0,1,1],var[2,0,0],var[2,1,1],var[3,1,0])",
+      "alldifferent(var[1,0,0],var[3,2,1],var[3,0,0],var[3,2,0])",
+      "alldifferent(var[0,2,0],var[0,2,1],var[0,0,0],var[2,1,0],var[6,1,1],var[3,0,1])",
+      "alldifferent(var[0,0,0],var[6,2,0],var[5,0,1],var[0,1,0],var[0,2,0],var[0,0,1])",
+      "alldifferent(var[4,1,1],var[2,2,0],var[2,2,1],var[6,2,0],var[4,0,0],var[3,0,0])",
+      "alldifferent(var[3,2,1],var[6,2,0],var[4,2,0],var[2,2,0],var[6,2,1])",
+      "alldifferent(var[5,2,0],var[3,0,0],var[2,0,0],var[4,1,1],var[1,2,0])",
+      "alldifferent(var[6,2,0],var[3,2,0],var[1,1,1],var[2,2,0],var[3,1,0],var[0,2,0],var[0,2,1])",
+      "alldifferent(var[5,1,0],var[4,2,1],var[3,1,0],var[2,2,1],var[4,0,0],var[5,0,0])",
+      "alldifferent(var[4,0,1],var[5,0,0],var[3,2,0],var[6,2,1],var[2,1,0],var[2,0,0])",
+      "alldifferent(var[5,1,1],var[5,0,0],var[0,1,1],var[0,0,0],var[3,1,1],var[3,0,0],var[2,1,0],var[6,1,1])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 94,
+    "time": 121.4156014919281,
+    "initial_cl": 404,
+    "pruned_bias": 1407,
+    "final_model_size": 464,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 0,
+        "unresolved_scopes": 0,
+        "unresolved_details": []
+      },
+      "algorithm": {
+        "skipped_scopes_count": 0,
+        "skipped_scopes": [],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 0,
+          "skipped_scopes": [],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 0
+    }
+  },
+  "total": {
+    "queries": 180,
+    "time": 139.9834086894989
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 289,
+      "learned_size": 464,
+      "correct": 136,
+      "missing": 33,
+      "spurious": 328,
+      "precision": 0.29310344827586204,
+      "recall": 0.47058823529411764,
+      "f1": 0.3612217795484728
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 0,
+      "target_solutions": 0,
+      "intersection_solutions": 0,
+      "is_complete": true,
+      "learned_incomplete": false,
+      "target_incomplete": false
+    }
+  }
+}

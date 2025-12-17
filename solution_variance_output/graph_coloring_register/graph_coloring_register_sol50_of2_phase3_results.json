@@ -1,0 +1,92 @@
+{
+  "experiment": "graph_coloring_register",
+  "timestamp": "2025-11-28T20:12:57.572796",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 50,
+    "B_fixed_size": 50
+  },
+  "phase2": {
+    "queries": 9,
+    "time": 0.6582095623016357,
+    "validated_globals": 9,
+    "validated_globals_list": [
+      "alldifferent(register[0],register[1],register[2])",
+      "alldifferent(register[1],register[2],register[3],register[4])",
+      "alldifferent(register[8],register[9],register[10],register[11])",
+      "alldifferent(register[3],register[4],register[5])",
+      "alldifferent(register[0],register[9],register[10])",
+      "alldifferent(register[2],register[5],register[8],register[11])",
+      "alldifferent(register[4],register[5],register[6],register[7])",
+      "alldifferent(register[6],register[7],register[8])",
+      "alldifferent(register[1],register[4],register[7])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 23,
+    "time": 2.8203883171081543,
+    "initial_cl": 31,
+    "pruned_bias": 19,
+    "final_model_size": 39,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 1,
+        "unresolved_scopes": 1,
+        "unresolved_details": [
+          {
+            "scope": "[register[8], register[3]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 1,
+        "skipped_scopes": [
+          "[register[8], register[3]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 1,
+          "skipped_scopes": [
+            "[register[8], register[3]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 2
+    }
+  },
+  "total": {
+    "queries": 32,
+    "time": 3.47859787940979
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 30,
+      "learned_size": 39,
+      "correct": 30,
+      "missing": 0,
+      "spurious": 9,
+      "precision": 0.7692307692307693,
+      "recall": 1.0,
+      "f1": 0.8695652173913044
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 1,
+      "target_solutions": 1,
+      "intersection_solutions": 0,
+      "is_complete": false,
+      "learned_incomplete": true,
+      "target_incomplete": true
+    }
+  }
+}

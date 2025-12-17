@@ -1,0 +1,128 @@
+{
+  "experiment": "sudoku_gt",
+  "timestamp": "2025-11-29T15:39:07.591448",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 2,
+    "B_fixed_size": 8370
+  },
+  "phase2": {
+    "queries": 48,
+    "time": 7.560258150100708,
+    "validated_globals": 39,
+    "validated_globals_list": [
+      "alldifferent(grid[1,0],grid[1,1],grid[1,2],grid[1,3],grid[1,4],grid[1,5],grid[1,6],grid[1,7],grid[1,8])",
+      "alldifferent(grid[0,0],grid[0,1],grid[0,2],grid[1,0],grid[1,1],grid[1,2],grid[2,0],grid[2,1],grid[2,2])",
+      "alldifferent(grid[3,6],grid[3,7],grid[3,8],grid[4,6],grid[4,7],grid[4,8],grid[5,6],grid[5,7],grid[5,8])",
+      "alldifferent(grid[3,0],grid[3,1],grid[3,2],grid[3,3],grid[3,4],grid[3,5],grid[3,6],grid[3,7],grid[3,8])",
+      "alldifferent(grid[0,2],grid[1,2],grid[2,2],grid[3,2],grid[4,2],grid[5,2],grid[6,2],grid[7,2],grid[8,2])",
+      "alldifferent(grid[0,6],grid[0,7],grid[0,8],grid[1,6],grid[1,7],grid[1,8],grid[2,6],grid[2,7],grid[2,8])",
+      "alldifferent(grid[0,0],grid[1,0],grid[2,0],grid[3,0],grid[4,0],grid[5,0],grid[6,0],grid[7,0],grid[8,0])",
+      "alldifferent(grid[2,0],grid[2,1],grid[2,2],grid[2,3],grid[2,4],grid[2,5],grid[2,6],grid[2,7],grid[2,8])",
+      "alldifferent(grid[0,3],grid[1,3],grid[2,3],grid[3,3],grid[4,3],grid[5,3],grid[6,3],grid[7,3],grid[8,3])",
+      "alldifferent(grid[5,0],grid[5,1],grid[5,2],grid[5,3],grid[5,4],grid[5,5],grid[5,6],grid[5,7],grid[5,8])",
+      "alldifferent(grid[6,0],grid[6,1],grid[6,2],grid[7,0],grid[7,1],grid[7,2],grid[8,0],grid[8,1],grid[8,2])",
+      "alldifferent(grid[0,4],grid[1,4],grid[2,4],grid[3,4],grid[4,4],grid[5,4],grid[6,4],grid[7,4],grid[8,4])",
+      "alldifferent(grid[7,0],grid[7,1],grid[7,2],grid[7,3],grid[7,4],grid[7,5],grid[7,6],grid[7,7],grid[7,8])",
+      "alldifferent(grid[3,3],grid[3,4],grid[3,5],grid[4,3],grid[4,4],grid[4,5],grid[5,3],grid[5,4],grid[5,5])",
+      "alldifferent(grid[3,0],grid[3,1],grid[3,2],grid[4,0],grid[4,1],grid[4,2],grid[5,0],grid[5,1],grid[5,2])",
+      "alldifferent(grid[4,0],grid[4,1],grid[4,2],grid[4,3],grid[4,4],grid[4,5],grid[4,6],grid[4,7],grid[4,8])",
+      "alldifferent(grid[0,7],grid[1,7],grid[2,7],grid[3,7],grid[4,7],grid[5,7],grid[6,7],grid[7,7],grid[8,7])",
+      "alldifferent(grid[0,1],grid[1,1],grid[2,1],grid[3,1],grid[4,1],grid[5,1],grid[6,1],grid[7,1],grid[8,1])",
+      "alldifferent(grid[0,8],grid[1,8],grid[2,8],grid[3,8],grid[4,8],grid[5,8],grid[6,8],grid[7,8],grid[8,8])",
+      "alldifferent(grid[0,5],grid[1,5],grid[2,5],grid[3,5],grid[4,5],grid[5,5],grid[6,5],grid[7,5],grid[8,5])",
+      "alldifferent(grid[0,0],grid[0,1],grid[0,2],grid[0,3],grid[0,4],grid[0,5],grid[0,6],grid[0,7],grid[0,8])",
+      "alldifferent(grid[6,3],grid[6,4],grid[6,5],grid[7,3],grid[7,4],grid[7,5],grid[8,3],grid[8,4],grid[8,5])",
+      "alldifferent(grid[6,6],grid[6,7],grid[6,8],grid[7,6],grid[7,7],grid[7,8],grid[8,6],grid[8,7],grid[8,8])",
+      "alldifferent(grid[6,0],grid[6,1],grid[6,2],grid[6,3],grid[6,4],grid[6,5],grid[6,6],grid[6,7],grid[6,8])",
+      "alldifferent(grid[8,0],grid[8,1],grid[8,2],grid[8,3],grid[8,4],grid[8,5],grid[8,6],grid[8,7],grid[8,8])",
+      "alldifferent(grid[0,3],grid[0,4],grid[0,5],grid[1,3],grid[1,4],grid[1,5],grid[2,3],grid[2,4],grid[2,5])",
+      "alldifferent(grid[0,6],grid[1,6],grid[2,6],grid[3,6],grid[4,6],grid[5,6],grid[6,6],grid[7,6],grid[8,6])",
+      "alldifferent(grid[0,2],grid[3,0],grid[1,8],grid[2,8])",
+      "alldifferent(grid[3,2],grid[2,3],grid[3,8],grid[5,0],grid[4,7])",
+      "alldifferent(grid[5,4],grid[5,7],grid[6,6],grid[2,6],grid[3,5])",
+      "alldifferent(grid[8,5],grid[1,6],grid[7,6],grid[4,5],grid[1,8],grid[1,0],grid[4,6])",
+      "alldifferent(grid[2,3],grid[4,1],grid[2,4],grid[6,5],grid[8,5])",
+      "alldifferent(grid[3,5],grid[3,3],grid[2,1],grid[8,5],grid[0,3],grid[0,7])",
+      "alldifferent(grid[0,2],grid[5,2],grid[2,8],grid[6,6],grid[4,1])",
+      "alldifferent(grid[0,5],grid[0,4],grid[1,7],grid[4,3],grid[1,8],grid[3,2])",
+      "alldifferent(grid[0,5],grid[6,3],grid[1,4],grid[7,4],grid[7,2])",
+      "alldifferent(grid[0,6],grid[3,5],grid[0,7],grid[5,3],grid[6,0],grid[4,2])",
+      "alldifferent(grid[5,6],grid[3,1],grid[2,4],grid[1,4],grid[5,0],grid[7,5])",
+      "alldifferent(grid[7,2],grid[5,0],grid[6,8],grid[6,0],grid[0,5],grid[0,7])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 50,
+    "time": 554.2959444522858,
+    "initial_cl": 937,
+    "pruned_bias": 7507,
+    "final_model_size": 955,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 2,
+        "unresolved_scopes": 2,
+        "unresolved_details": [
+          {
+            "scope": "[grid[0,1], grid[1,8]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[grid[0,1], grid[1,8]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 2,
+        "skipped_scopes": [
+          "[grid[0,1], grid[1,8]]",
+          "[grid[0,1], grid[1,8]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 2,
+          "skipped_scopes": [
+            "[grid[0,1], grid[1,8]]",
+            "[grid[0,1], grid[1,8]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 4
+    }
+  },
+  "total": {
+    "queries": 98,
+    "time": 561.8562026023865
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 27,
+      "learned_size": 955,
+      "correct": 0,
+      "missing": 27,
+      "spurious": 955,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 0,
+      "target_solutions": 3,
+      "intersection_solutions": 0,
+      "is_complete": false,
+      "learned_incomplete": false,
+      "target_incomplete": true
+    }
+  }
+}

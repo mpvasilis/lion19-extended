@@ -1,0 +1,104 @@
+{
+  "experiment": "graph_coloring_register",
+  "timestamp": "2025-12-01T09:37:53.058924",
+  "phase1": {
+    "queries": 0,
+    "time": 0,
+    "E_plus_size": 2,
+    "B_fixed_size": 94
+  },
+  "phase2": {
+    "queries": 34,
+    "time": 0.8718156814575195,
+    "validated_globals": 9,
+    "validated_globals_list": [
+      "alldifferent(register[1],register[2],register[3],register[4])",
+      "alldifferent(register[8],register[9],register[10],register[11])",
+      "alldifferent(register[2],register[5],register[8],register[11])",
+      "alldifferent(register[0],register[9],register[10])",
+      "alldifferent(register[0],register[1],register[2])",
+      "alldifferent(register[4],register[5],register[6],register[7])",
+      "alldifferent(register[6],register[7],register[8])",
+      "alldifferent(register[3],register[4],register[5])",
+      "alldifferent(register[1],register[4],register[7])"
+    ]
+  },
+  "phase3": {
+    "algorithm": "GROWACQ",
+    "queries": 43,
+    "time": 1.7617712020874023,
+    "initial_cl": 31,
+    "pruned_bias": 63,
+    "final_model_size": 47,
+    "resilience": {
+      "findc": {
+        "collapse_warnings": 3,
+        "unresolved_scopes": 3,
+        "unresolved_details": [
+          {
+            "scope": "[register[9], register[1], register[2]]",
+            "target": "[(register[1]) != (register[2])]"
+          },
+          {
+            "scope": "[register[3], register[0]]",
+            "target": "[]"
+          },
+          {
+            "scope": "[register[3], register[0]]",
+            "target": "[]"
+          }
+        ]
+      },
+      "algorithm": {
+        "skipped_scopes_count": 3,
+        "skipped_scopes": [
+          "[register[9], register[1], register[2]]",
+          "[register[3], register[0]]",
+          "[register[3], register[0]]"
+        ],
+        "invalid_cl_constraints_count": 0,
+        "invalid_cl_constraints": [],
+        "collapse_warnings": 0,
+        "inner_algorithm": {
+          "skipped_scopes_count": 3,
+          "skipped_scopes": [
+            "[register[9], register[1], register[2]]",
+            "[register[3], register[0]]",
+            "[register[3], register[0]]"
+          ],
+          "invalid_cl_constraints_count": 0,
+          "invalid_cl_constraints": []
+        }
+      },
+      "algorithm_name": "GROWACQ",
+      "total_issues": 6
+    }
+  },
+  "total": {
+    "queries": 77,
+    "time": 2.633586883544922
+  },
+  "evaluation": {
+    "constraint_level": {
+      "target_size": 30,
+      "learned_size": 47,
+      "correct": 30,
+      "missing": 0,
+      "spurious": 17,
+      "precision": 0.6382978723404256,
+      "recall": 1.0,
+      "f1": 0.7792207792207793
+    },
+    "solution_level": {
+      "s_precision": 0.0,
+      "s_recall": 0.0,
+      "s_f1": 0.0,
+      "learned_solutions": 1,
+      "target_solutions": 2,
+      "intersection_solutions": 0,
+      "is_complete": false,
+      "learned_incomplete": true,
+      "target_incomplete": true
+    }
+  }
+}
