@@ -1,0 +1,6 @@
+resilient_mode: none
+approach: lion
+experiment: sudoku_gt
+config_tag: sol20_of5
+run_number: 1
+description: Phase 3 completed successfully without resilient wrappers

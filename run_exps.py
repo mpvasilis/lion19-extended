@@ -105,7 +105,7 @@ def run_phase2(experiment, phase1_pickle, *, approach="cop", max_queries=5000, t
 def run_phase3(experiment, phase2_pickle, *, approach="cop", config_tag=None):
     cmd = [
         PYTHON_EXECUTABLE,
-        "run_phase3.py",
+        "run_phase3_simple.py",
         "--experiment",
         experiment,
         "--phase2_pickle",
@@ -347,6 +347,26 @@ def group_configs_for_display(configs):
     return grouped
 
 
+def get_phase2_pickle_path(benchmark, approach, config_tag):
+    """Construct the expected Phase 2 pickle path for a given config."""
+    file_suffix_map = {
+        "cop": "phase2.pkl",
+        "lion": "lion19_phase2.pkl"
+    }
+    base_output_dir = f"phase2_output_{approach.lower()}"
+    if config_tag:
+        target_dir = os.path.join(base_output_dir, benchmark)
+        dest_filename = f"{benchmark}_{config_tag}_{file_suffix_map[approach.lower()]}"
+    else:
+        filename_map = {
+            "cop": f"{benchmark}_phase2.pkl",
+            "lion": f"{benchmark}_lion19_phase2.pkl"
+        }
+        target_dir = base_output_dir
+        dest_filename = filename_map[approach.lower()]
+    return os.path.join(target_dir, dest_filename)
+
+
 def process_cached_config(config, approaches):
     benchmark = config["benchmark"]
     num_solutions = config["num_solutions"]
@@ -357,12 +377,21 @@ def process_cached_config(config, approaches):
         print("\n" + "-" * 60)
         print(f"[TASK] Running {approach.upper()} approach for {benchmark} ({config_tag})")
         print("-" * 60 + "\n")
-        phase2_success, phase2_pickle = run_phase2(
-            benchmark,
-            phase1_pickle,
-            approach=approach,
-            config_tag=config_tag
-        )
+        
+        # Check if Phase 2 pickle already exists
+        expected_phase2_pickle = get_phase2_pickle_path(benchmark, approach, config_tag)
+        if os.path.exists(expected_phase2_pickle):
+            print(f"[INFO] Phase 2 pickle already exists: {expected_phase2_pickle}")
+            print("[INFO] Skipping Phase 2, running only Phase 3...")
+            phase2_pickle = expected_phase2_pickle
+            phase2_success = True
+        else:
+            phase2_success, phase2_pickle = run_phase2(
+                benchmark,
+                phase1_pickle,
+                approach=approach,
+                config_tag=config_tag
+            )
         if not phase2_success:
             print(f"\n[TASK ERROR] Phase 2 ({approach.upper()}) failed for {benchmark}")
             continue
